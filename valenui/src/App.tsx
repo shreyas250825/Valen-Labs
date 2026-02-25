@@ -1,3 +1,4 @@
+import { Routes, Route } from 'react-router-dom';
 import { handleBetaSubmit } from './utils/api';
 import { Navbar } from './components/ui/Navbar';
 import { HeroSection } from './components/sections/HeroSection';
@@ -5,8 +6,9 @@ import { ScrollAnimationSection } from './components/sections/ScrollAnimationSec
 import { ProductSection } from './components/sections/ProductSection';
 import { BetaSection } from './components/sections/BetaSection';
 import { Footer } from './components/sections/Footer';
+import { Admin } from './pages/Admin';
 
-function App() {
+function LandingPage() {
   const handleCTAClick = (action: 'beta' | 'learn') => {
     if (action === 'beta') {
       document.querySelector('#beta')?.scrollIntoView({ behavior: 'smooth' });
@@ -42,6 +44,15 @@ function App() {
       
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
   );
 }
 

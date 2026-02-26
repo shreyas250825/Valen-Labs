@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwd3CV-5pkZsbImGuorUa6Z4sggBwtp7NLuXfS8Xk1ZGhL6vGyKB44p5jozAibj4LiZ/exec';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzKjt7xJUjHfIKVcBytK4RK_ouuRTsvOCY9TQhjoQa_XJcUCAQg_-LBTGm2Qks_-_O-/exec';
 
 interface BetaSignup {
   email: string;

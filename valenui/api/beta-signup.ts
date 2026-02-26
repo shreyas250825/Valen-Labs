@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { promises as fs } from 'fs';
-import path from 'path';
+
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwd3CV-5pkZsbImGuorUa6Z4sggBwtp7NLuXfS8Xk1ZGhL6vGyKB44p5jozAibj4LiZ/exec';
 
 interface BetaSignup {
   email: string;
@@ -9,19 +9,59 @@ interface BetaSignup {
   userAgent?: string;
 }
 
-const DATA_FILE = path.join('/tmp', 'beta-signups.json');
+// In-memory cache for signups (refreshed periodically)
+let signupsCache: BetaSignup[] = [];
+let lastFetchTime = 0;
+const CACHE_DURATION = 60000; // 1 minute cache
 
-async function readSignups(): Promise<BetaSignup[]> {
+async function fetchSignupsFromSheet(): Promise<BetaSignup[]> {
   try {
-    const data = await fs.readFile(DATA_FILE, 'utf-8');
-    return JSON.parse(data);
+    const response = await fetch(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: JSON.stringify({ action: 'get' })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        return data.map((row: any) => ({
+          email: row.email || row[0],
+          timestamp: row.timestamp || row[1] || Date.now(),
+          ip: row.ip || row[2],
+          userAgent: row.userAgent || row[3]
+        }));
+      }
+    }
   } catch (error) {
-    return [];
+    console.error('Error fetching from Google Sheet:', error);
   }
+  return [];
 }
 
-async function writeSignups(signups: BetaSignup[]): Promise<void> {
-  await fs.writeFile(DATA_FILE, JSON.stringify(signups, null, 2));
+async function saveToSheet(signup: BetaSignup): Promise<boolean> {
+  try {
+    const response = await fetch(GOOGLE_SHEET_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: JSON.stringify({
+        action: 'add',
+        email: signup.email,
+        timestamp: signup.timestamp,
+        ip: signup.ip,
+        userAgent: signup.userAgent
+      })
+    });
+    
+    return response.ok;
+  } catch (error) {
+    console.error('Error saving to Google Sheet:', error);
+    return false;
+  }
 }
 
 export default async function handler(
@@ -55,11 +95,11 @@ export default async function handler(
         });
       }
 
-      // Read existing signups
-      const signups = await readSignups();
+      // Get existing signups
+      const signups = await fetchSignupsFromSheet();
 
       // Check for duplicates
-      const exists = signups.some(signup => signup.email === email);
+      const exists = signups.some(signup => signup.email.toLowerCase() === email.toLowerCase());
       if (exists) {
         return res.status(200).json({
           success: true,
@@ -67,16 +107,26 @@ export default async function handler(
         });
       }
 
-      // Add new signup
+      // Create new signup
       const newSignup: BetaSignup = {
         email,
         timestamp: timestamp || Date.now(),
-        ip: req.headers['x-forwarded-for'] as string || req.socket.remoteAddress,
-        userAgent: req.headers['user-agent']
+        ip: req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown',
+        userAgent: req.headers['user-agent'] as string || 'unknown'
       };
 
-      signups.push(newSignup);
-      await writeSignups(signups);
+      // Save to Google Sheet
+      const saved = await saveToSheet(newSignup);
+      
+      if (!saved) {
+        return res.status(500).json({
+          success: false,
+          message: 'Failed to save email'
+        });
+      }
+
+      // Update cache
+      signupsCache.push(newSignup);
 
       return res.status(200).json({
         success: true,
@@ -92,18 +142,33 @@ export default async function handler(
   }
 
   if (req.method === 'GET') {
-    // Admin endpoint to view signups (add authentication in production)
+    // Admin endpoint to view signups
     try {
-      const signups = await readSignups();
+      // Use cache if recent
+      const now = Date.now();
+      if (now - lastFetchTime < CACHE_DURATION && signupsCache.length > 0) {
+        return res.status(200).json({
+          success: true,
+          count: signupsCache.length,
+          signups: signupsCache
+        });
+      }
+
+      // Fetch fresh data
+      const signups = await fetchSignupsFromSheet();
+      signupsCache = signups;
+      lastFetchTime = now;
+
       return res.status(200).json({
         success: true,
         count: signups.length,
         signups
       });
     } catch (error) {
+      console.error('Error fetching signups:', error);
       return res.status(500).json({
         success: false,
-        message: 'Internal server error'
+        message: 'Failed to fetch signups'
       });
     }
   }

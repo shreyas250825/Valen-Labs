@@ -17,7 +17,7 @@ export function Footer() {
               Building intelligent AI systems for the future of career intelligence.
             </p>
             <p className="text-sm text-gray-500">
-              Founded by Shreyas Salian
+              
             </p>
           </div>
 

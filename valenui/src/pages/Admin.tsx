@@ -17,8 +17,8 @@ export function Admin() {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    // Check if already authenticated
-    const auth = localStorage.getItem('adminAuth');
+    // Check if already authenticated (use sessionStorage for session-only persistence)
+    const auth = sessionStorage.getItem('adminAuth');
     if (auth === 'true') {
       setIsAuthenticated(true);
       fetchSignups();
@@ -48,7 +48,7 @@ export function Admin() {
     e.preventDefault();
     if (username === 'admin' && password === 'sah180625') {
       setIsAuthenticated(true);
-      localStorage.setItem('adminAuth', 'true');
+      sessionStorage.setItem('adminAuth', 'true');
       fetchSignups();
     } else {
       setLoginError('Invalid credentials');
@@ -57,7 +57,7 @@ export function Admin() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('adminAuth');
+    sessionStorage.removeItem('adminAuth');
     setSignups([]);
     setUsername('');
     setPassword('');

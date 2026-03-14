@@ -50,7 +50,7 @@ export function BetaSection({ onSubmit }: BetaSectionProps) {
             <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
               Beta Access Opens
               <br />
-              <span className="text-gradient">March 15, 2026</span>
+              <span className="text-gradient">March 18, 2026</span>
             </h2>
             <p className="text-gray-400 mb-10 text-lg">
               Be among the first to experience the future of career intelligence

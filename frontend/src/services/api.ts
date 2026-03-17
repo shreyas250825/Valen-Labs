@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Base URL for API requests - tries localhost first, falls back to Render backend
 const LOCAL_API_URL = 'http://localhost:8000';
-const RENDER_API_URL = 'https://iit-b-finals.onrender.com';
+const RENDER_API_URL = 'https://valen-labs.onrender.com';
 
 // Function to check if localhost is available
 const checkLocalhost = async (): Promise<boolean> => {

@@ -66,6 +66,7 @@ app.include_router(feedback_routes.router)
 
 
 @app.get("/")
+@app.head("/")
 async def root():
   return {
     "message": "GenAI Career Intelligence Platform API",

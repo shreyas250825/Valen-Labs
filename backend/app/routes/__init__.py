@@ -1,3 +1,4 @@
+from . import feedback_routes  # noqa: F401
 # backend/app/routes/__init__.py
 from .health_check import router as health_router
 from .interview_routes import router as interview_router

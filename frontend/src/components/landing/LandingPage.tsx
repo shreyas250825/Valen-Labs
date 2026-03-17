@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Zap, Shield, BarChart3, Users, ChevronDown } from "lucide-react";
+import { Zap, Shield, BarChart3, Users, ChevronDown, MessageSquare } from "lucide-react";
+import { API_BASE_URL } from "../../services/api";
+import { firebaseAuth } from "../../lib/firebase";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const [feedback, setFeedback] = useState("");
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const canSubmit = useMemo(() => feedback.trim().length >= 10, [feedback]);
 
   return (
     <div className="overflow-x-hidden bg-black text-white">
@@ -126,6 +133,108 @@ const LandingPage: React.FC = () => {
             <p className="text-slate-500 text-xs uppercase tracking-widest">
               Scalable AI Platform
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* BETA FEEDBACK */}
+      <section className="border-t border-white/10 py-20 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+          <div>
+            <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.4em] uppercase text-purple-400 mb-4">
+              <MessageSquare size={14} />
+              Beta feedback
+            </div>
+            <h2 className="text-4xl font-bold mb-4">
+              Help us improve <span className="text-purple-500">Valen AI</span>
+            </h2>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              This is a beta version. Tell us what’s confusing, what’s missing, or what you want next.
+              If you leave your email, we may reply for details.
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+            <label className="block text-xs uppercase tracking-widest text-slate-500 mb-2">
+              How can we improve?
+            </label>
+            <textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              rows={5}
+              placeholder="Example: The dashboard is slow on mobile. I want a clear 'next steps' section after reports…"
+              className="w-full rounded-2xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/10 transition"
+            />
+
+            <div className="mt-4">
+              <label className="block text-xs uppercase tracking-widest text-slate-500 mb-2">
+                Email (optional)
+              </label>
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="w-full rounded-2xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-400/50 focus:ring-2 focus:ring-emerald-400/10 transition"
+              />
+            </div>
+
+            <div className="mt-6 flex items-center justify-between gap-4">
+              <p className="text-xs text-slate-500">
+                Minimum 10 characters.
+              </p>
+              <button
+                disabled={!canSubmit}
+                onClick={async () => {
+                  if (!canSubmit || status === "submitting") return;
+                  setStatus("submitting");
+                  setErrorMsg(null);
+                  try {
+                    const user = firebaseAuth.currentUser;
+                    const token = user ? await user.getIdToken().catch(() => "") : "";
+                    const res = await fetch(`${API_BASE_URL}/api/v1/feedback`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                      },
+                      body: JSON.stringify({
+                        message: feedback.trim(),
+                        email: email.trim() || null,
+                        page: "landing",
+                      }),
+                    });
+                    if (!res.ok) {
+                      const text = await res.text().catch(() => "");
+                      throw new Error(text || `Request failed (${res.status})`);
+                    }
+                    setStatus("success");
+                    setFeedback("");
+                    setEmail("");
+                  } catch (e: any) {
+                    setStatus("error");
+                    setErrorMsg(e?.message || "Failed to send feedback");
+                  }
+                }}
+                className={`px-6 py-3 rounded-xl font-bold transition-all ${
+                  canSubmit
+                    ? "bg-white text-black hover:scale-105"
+                    : "bg-white/10 text-slate-500 cursor-not-allowed"
+                }`}
+              >
+                {status === "submitting" ? "Sending..." : "Send feedback"}
+              </button>
+            </div>
+
+            {status === "success" && (
+              <p className="mt-4 text-sm text-emerald-400">
+                Thanks — your feedback was sent.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="mt-4 text-sm text-red-400">
+                {errorMsg || "Failed to send feedback. Please try again."}
+              </p>
+            )}
           </div>
         </div>
       </section>

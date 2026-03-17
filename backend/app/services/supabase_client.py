@@ -44,6 +44,18 @@ def upsert_user(firebase_uid: str, email: str | None, name: str | None) -> None:
     r.raise_for_status()
 
 
+def insert_beta_feedback(payload: dict) -> None:
+    url, key = _cfg()
+    endpoint = f"{url}/rest/v1/beta_feedback"
+    r = requests.post(
+        endpoint,
+        headers=_headers(key, prefer="return=minimal"),
+        json=payload,
+        timeout=15,
+    )
+    r.raise_for_status()
+
+
 def insert_interview_session(payload: dict) -> dict:
     url, key = _cfg()
     endpoint = f"{url}/rest/v1/interview_sessions"

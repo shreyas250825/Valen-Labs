@@ -1,0 +1,81 @@
+/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* New Design System Colors */
+  --color-primary-bg: #020617; /* slate-950 */
+  --color-secondary-bg: rgba(15, 23, 42, 0.5); /* slate-900/50 */
+  --color-tertiary-bg: rgba(30, 41, 59, 0.4); /* slate-800/40 */
+  
+  /* Accent Colors */
+  --color-purple-primary: #a855f7; /* purple-500 */
+  --color-purple-secondary: #9333ea; /* purple-600 */
+  --color-cyan-primary: #06b6d4; /* cyan-500 */
+  --color-sky-primary: #0ea5e9; /* sky-500 */
+  --color-sky-secondary: #0284c7; /* sky-600 */
+  
+  /* Text Colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #94a3b8; /* slate-400 */
+  --color-text-tertiary: #9ca3af; /* gray-400 */
+  --color-text-accent: #0ea5e9; /* sky-500 */
+  
+  /* Border Colors */
+  --color-border-primary: rgba(255, 255, 255, 0.1);
+  --color-border-secondary: rgba(255, 255, 255, 0.05);
+  
+  /* Glass Morphism */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(35px);
+  
+  /* Typography */
+  font-family: 'Space Grotesk', 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+html { 
+  scroll-behavior: smooth; 
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  
+  /* Deep Space Mesh Gradient Background */
+  background: radial-gradient(at 50% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+              radial-gradient(at 0% 0%, hsla(225,39%,30%,0.1) 0, transparent 50%), 
+              radial-gradient(at 100% 100%, hsla(339,49%,30%,0.05) 0, transparent 50%);
+  background-color: var(--color-primary-bg);
+  background-attachment: fixed;
+  color: var(--color-text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Sentinel Pulse Background Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Selection Styling */
+::selection {
+  background: rgba(139, 92, 246, 0.4);
+  color: white;
+}

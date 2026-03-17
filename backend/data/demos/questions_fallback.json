@@ -1,0 +1,82 @@
+[
+  {
+    "id": "q1",
+    "text": "Tell me about yourself and your background in {role}.",
+    "followups": "Can you elaborate on your most recent experience?",
+    "type": "behavioral",
+    "difficulty": "easy",
+    "expected_keywords": ["experience", "background", "skills", "projects"],
+    "expected_length": "medium",
+    "ideal_answer": "Provide a concise overview of your professional background, highlighting key skills and experiences relevant to the role."
+  },
+  {
+    "id": "q2", 
+    "text": "Describe a challenging technical project you worked on as a {role}.",
+    "followups": "What was the outcome and what did you learn?",
+    "type": "technical",
+    "difficulty": "medium",
+    "expected_keywords": ["project", "challenge", "solution", "technologies", "result"],
+    "expected_length": "long",
+    "ideal_answer": "Use the STAR method: describe the Situation, Task, Action you took, and Results achieved."
+  },
+  {
+    "id": "q3",
+    "text": "How do you handle tight deadlines and pressure in your work?",
+    "followups": "Can you give me a specific example?",
+    "type": "behavioral", 
+    "difficulty": "medium",
+    "expected_keywords": ["time management", "prioritization", "stress", "planning"],
+    "expected_length": "medium",
+    "ideal_answer": "Explain your approach to time management, prioritization, and maintaining quality under pressure with a concrete example."
+  },
+  {
+    "id": "q4",
+    "text": "What technical skills and tools do you bring to this {role} position?",
+    "followups": "Which skill would you say is your strongest?",
+    "type": "technical",
+    "difficulty": "easy",
+    "expected_keywords": ["skills", "technologies", "tools", "expertise", "programming"],
+    "expected_length": "medium", 
+    "ideal_answer": "List your relevant technical skills, focusing on those most applicable to the role, and provide brief examples of how you've used them."
+  },
+  {
+    "id": "q5",
+    "text": "Describe a time when you had to learn a new technology or skill quickly.",
+    "followups": "How did you approach the learning process?",
+    "type": "behavioral",
+    "difficulty": "medium",
+    "expected_keywords": ["learning", "adaptation", "self-study", "technology", "quick"],
+    "expected_length": "medium",
+    "ideal_answer": "Describe your learning methodology, resources used, and how you applied the new knowledge in practice."
+  },
+  {
+    "id": "q6",
+    "text": "How do you approach debugging and problem-solving in your development work?",
+    "followups": "Walk me through your typical debugging process.",
+    "type": "technical",
+    "difficulty": "hard",
+    "expected_keywords": ["debugging", "problem-solving", "methodology", "tools", "systematic"],
+    "expected_length": "long",
+    "ideal_answer": "Explain your systematic approach to identifying, isolating, and resolving technical issues, including tools and techniques you use."
+  },
+  {
+    "id": "q7",
+    "text": "Why are you interested in this {role} position and our company?",
+    "followups": "What excites you most about this opportunity?",
+    "type": "behavioral",
+    "difficulty": "easy", 
+    "expected_keywords": ["interest", "motivation", "company", "role", "goals"],
+    "expected_length": "medium",
+    "ideal_answer": "Connect your career goals and interests with what the company and role offer, showing you've researched the opportunity."
+  },
+  {
+    "id": "q8",
+    "text": "Describe your experience working in a team environment.",
+    "followups": "How do you handle conflicts or disagreements?",
+    "type": "behavioral",
+    "difficulty": "medium",
+    "expected_keywords": ["teamwork", "collaboration", "communication", "conflict resolution"],
+    "expected_length": "medium",
+    "ideal_answer": "Provide examples of successful team collaboration and how you contribute to team dynamics and resolve conflicts constructively."
+  }
+]

@@ -1,0 +1,39 @@
+.DS_Store
+Thumbs.db
+
+# Secrets / env files
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+ENV/
+env/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Local databases / artifacts
+*.sqlite
+*.sqlite3
+*.db
+
+# Uploaded / generated data (do not commit user docs)
+backend/data/uploads/
+backend/demo_storage/
+backend/demo_database/
+
+# Old moved folder (no longer used)
+gen-ai-carrier-platform/
+

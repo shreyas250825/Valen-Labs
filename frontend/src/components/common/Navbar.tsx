@@ -69,20 +69,13 @@ const Navbar = () => {
           {/* 🔹 BRAND */}
           <div
             onClick={() => navigate("/")}
-            className="flex items-center gap-4 cursor-pointer group"
+            className="flex items-center cursor-pointer group"
           >
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 to-emerald-400 flex items-center justify-center text-white font-black text-sm shadow-lg group-hover:scale-105 transition">
-              VL
-            </div>
-
-            <div className="leading-tight">
-              <p className="text-lg font-semibold tracking-tight">
-                Valen Labs
-              </p>
-              <p className="text-[11px] text-purple-400 tracking-wider uppercase">
-                Valen AI
-              </p>
-            </div>
+            <img
+              src="/assets/Valen Labs Logo.png"
+              alt="Valen Labs"
+              className="h-14 w-auto object-contain opacity-95 group-hover:opacity-100 transition"
+            />
           </div>
 
           {/* 🔹 NAV LINKS */}

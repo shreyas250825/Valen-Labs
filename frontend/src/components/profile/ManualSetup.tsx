@@ -9,7 +9,7 @@ const ManualSetup: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('Software Engineer');
   const [customRole, setCustomRole] = useState<string>('');
 
-  const roles = ['Software Engineer', 'Frontend Developer', 'Backend Developer', 'Data Scientist', 'Product Manager', 'DevOps Engineer', 'Full Stack Developer'];
+  const roles = ['Software Engineer', 'Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Data Scientist', 'AI/ML Engineer', 'DevOps Engineer', 'Product Manager'];
 
   const handleNext = () => {
     if (step === 'role') {

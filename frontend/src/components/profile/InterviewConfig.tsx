@@ -23,6 +23,7 @@ const InterviewConfig: React.FC<InterviewConfigProps> = ({ parsedData, onComplet
     'Backend Developer',
     'Full Stack Developer',
     'Data Scientist',
+    'AI/ML Engineer',
     'DevOps Engineer',
     'Product Manager',
     'UI/UX Designer',

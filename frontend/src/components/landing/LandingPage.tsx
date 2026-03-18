@@ -43,7 +43,14 @@ const LandingPage: React.FC = () => {
 
           {/* CTA */}
           <button
-            onClick={() => navigate("/setup")}
+            onClick={() => {
+              const user = firebaseAuth.currentUser;
+              if (user) {
+                navigate("/setup");
+              } else {
+                navigate("/signup");
+              }
+            }}
             className="px-10 py-4 bg-white text-black font-bold rounded-xl hover:scale-105 transition-all"
           >
             Get Started

@@ -9,7 +9,38 @@ const ManualSetup: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>('Software Engineer');
   const [customRole, setCustomRole] = useState<string>('');
 
-  const roles = ['Software Engineer', 'Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Data Scientist', 'AI/ML Engineer', 'DevOps Engineer', 'Product Manager'];
+  const roles = [
+    'Software Engineer',
+    'Frontend Developer',
+    'Backend Developer',
+    'Full Stack Developer',
+    'Data Scientist',
+    'AI/ML Engineer',
+    'DevOps Engineer',
+    'Product Manager',
+
+    // ECE / Hardware
+    'Embedded Systems Engineer',
+    'VLSI Design Engineer',
+    'FPGA Engineer',
+    'RF Engineer',
+    'Signal Processing Engineer',
+    'Control Systems Engineer',
+    'Hardware Engineer',
+    'Power Electronics Engineer',
+    'PCB Design Engineer',
+
+    // Aerospace
+    'Aerospace Engineer',
+    'Avionics Engineer',
+    'Flight Controls Engineer',
+    'Propulsion Engineer',
+    'Aerodynamics Engineer',
+    'Structures Engineer',
+    'GNC Engineer',
+    'Satellite Systems Engineer',
+    'Systems Engineer (Aerospace)',
+  ];
 
   const handleNext = () => {
     if (step === 'role') {

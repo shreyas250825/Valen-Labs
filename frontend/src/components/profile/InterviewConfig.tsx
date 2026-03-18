@@ -30,7 +30,29 @@ const InterviewConfig: React.FC<InterviewConfigProps> = ({ parsedData, onComplet
     'Mobile Developer',
     'QA Engineer',
     'System Architect',
-    'Tech Lead'
+    'Tech Lead',
+
+    // ECE / Hardware
+    'Embedded Systems Engineer',
+    'VLSI Design Engineer',
+    'FPGA Engineer',
+    'RF Engineer',
+    'Signal Processing Engineer',
+    'Control Systems Engineer',
+    'Hardware Engineer',
+    'Power Electronics Engineer',
+    'PCB Design Engineer',
+
+    // Aerospace
+    'Aerospace Engineer',
+    'Avionics Engineer',
+    'Flight Controls Engineer',
+    'Propulsion Engineer',
+    'Aerodynamics Engineer',
+    'Structures Engineer',
+    'GNC Engineer',
+    'Satellite Systems Engineer',
+    'Systems Engineer (Aerospace)'
   ];
 
   const handleRoleSelect = (role: string) => {

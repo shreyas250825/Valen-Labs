@@ -15,6 +15,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import AboutPage from './components/about/AboutPage';
 import AptitudeAssessment from './components/aptitude/AptitudeAssessment';
 import JobFitAnalysis from './components/jobfit/JobFitAnalysis';
+import { ResumeBuilder } from './features/resume-builder';
 import SignInPage from "./components/auth/SignInPage";
 import SignUpPage from "./components/auth/SignUpPage";
 import LoadingSpinner from "./components/common/LoadingSpinner";
@@ -144,6 +145,14 @@ function App() {
           element={
             <RequireAuth>
               <Layout><JobFitAnalysis /></Layout>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/dashboard/resume-builder"
+          element={
+            <RequireAuth>
+              <Layout><ResumeBuilder /></Layout>
             </RequireAuth>
           }
         />

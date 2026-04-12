@@ -16,7 +16,8 @@ import {
   Zap,
   Sparkles,
   Shield,
-  ChevronRight
+  ChevronRight,
+  FileText
 } from "lucide-react";
 import {
   LineChart,
@@ -619,7 +620,7 @@ const Dashboard = () => {
             <Zap className="text-purple-400" size={24} />
             Start a Session
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             <ActionCard
               name="Technical"
               icon={Brain}
@@ -643,6 +644,12 @@ const Dashboard = () => {
               icon={BarChart3}
               onClick={() => navigate("/job-fit")}
               description="Role Compatibility"
+            />
+            <ActionCard
+              name="Resume"
+              icon={FileText}
+              onClick={() => navigate("/dashboard/resume-builder")}
+              description="Structured → LaTeX → PDF"
             />
           </div>
         </div>

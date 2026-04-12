@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 from functools import lru_cache
 
 import requests
@@ -379,4 +380,29 @@ def get_job_fit_result(firebase_uid: str) -> dict | None:
 
 def get_aptitude_result(firebase_uid: str) -> dict | None:
     return _get_object_or_none(f"/rest/v1/aptitude_results?select=*&firebase_uid=eq.{firebase_uid}")
+
+
+def upsert_resume_builder_draft(firebase_uid: str, payload: dict) -> None:
+    url, key = _cfg()
+    endpoint = f"{url}/rest/v1/resume_builder_drafts?on_conflict=firebase_uid"
+    r = requests.post(
+        endpoint,
+        headers=_headers(key, prefer="resolution=merge-duplicates,return=minimal"),
+        json={
+            "firebase_uid": firebase_uid,
+            "payload": payload,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        },
+        timeout=20,
+    )
+    r.raise_for_status()
+
+
+def get_resume_builder_draft(firebase_uid: str) -> dict | None:
+    row = _get_object_or_none(
+        f"/rest/v1/resume_builder_drafts?select=payload,updated_at&firebase_uid=eq.{firebase_uid}"
+    )
+    if not row:
+        return None
+    return {"payload": row.get("payload") or {}, "updated_at": row.get("updated_at")}
 

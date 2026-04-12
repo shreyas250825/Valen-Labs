@@ -8,6 +8,7 @@ import {
   X,
   Target,
   Brain,
+  FileText,
   User,
   LogIn,
   UserPlus
@@ -45,15 +46,19 @@ const Navbar = () => {
     return () => unsub();
   }, []);
 
-  const isActive = (path: string) =>
-    location.pathname === path || location.pathname.startsWith(path);
+  const isActive = (path: string) => {
+    if (path === "/") return location.pathname === "/";
+    if (path === "/dashboard") return location.pathname === "/dashboard";
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
+  };
 
   const navLinks = [
     { label: "Home", href: "/", icon: Home },
     { label: "Interview", href: "/setup", icon: Mic },
     { label: "Dashboard", href: "/dashboard", icon: BarChart3 },
     { label: "Aptitude", href: "/aptitude", icon: Brain },
-    { label: "Job Fit", href: "/job-fit", icon: Target }
+    { label: "Job Fit", href: "/job-fit", icon: Target },
+    { label: "Resume", href: "/dashboard/resume-builder", icon: FileText }
   ];
 
   const handleLogout = () => {

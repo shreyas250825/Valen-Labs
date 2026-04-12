@@ -275,4 +275,32 @@ export async function logAptitudeResultToBackend(payload: any) {
   }
 }
 
+export async function fetchResumeBuilderDraftFromBackend(): Promise<{
+  draft: Record<string, unknown> | null;
+  updated_at?: string | null;
+}> {
+  const res = await fetch(`${API_BASE_URL}/api/v1/supabase/resume-builder`, {
+    headers: { ...(await authHeader()) },
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Failed to load resume draft (${res.status}): ${text}`);
+  }
+  return res.json() as Promise<{ draft: Record<string, unknown> | null; updated_at?: string | null }>;
+}
+
+export async function saveResumeBuilderDraftToBackend(payload: Record<string, unknown>) {
+  const res = await fetch(`${API_BASE_URL}/api/v1/supabase/resume-builder`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(await authHeader()),
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Failed to save resume draft (${res.status}): ${text}`);
+  }
+}
 

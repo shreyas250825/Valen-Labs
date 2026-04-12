@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 
-from app.routes import health_check, interview_routes, resume_routes, report_routes
+from app.routes import health_check, interview_routes, resume_routes, resume_builder_routes, report_routes
 # Import new routes for enhanced features
 from app.routes import aptitude_routes, job_fit_routes, ai_engine_routes, demo_routes, feedback_routes
 from app.routes import supabase_routes
@@ -52,6 +52,7 @@ app.include_router(interview_routes.router, prefix="/api", tags=["Interview"])
 app.include_router(resume_routes.router, prefix="/api/v1/resume", tags=["Resume"])
 # Also include resume routes under /api/resume for the new parse endpoint
 app.include_router(resume_routes.router, prefix="/api/resume", tags=["Resume"])
+app.include_router(resume_builder_routes.router, prefix="/api/resume", tags=["Resume Builder"])
 app.include_router(report_routes.router, prefix="/api/v1/reports", tags=["Reports"])
 
 # Supabase persistence endpoints (Render backend → Supabase)

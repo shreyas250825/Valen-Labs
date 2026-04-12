@@ -34,6 +34,10 @@ class Settings(BaseSettings):
     
     # AI Models - Gemini
     GEMINI_API_KEY: Optional[str] = None
+
+    # Resume builder enhancement (optional; falls back to Gemini)
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_MODEL: str = "gpt-4o-mini"
     
     # Legacy - kept for backward compatibility
     HUGGINGFACE_API_KEY: Optional[str] = None

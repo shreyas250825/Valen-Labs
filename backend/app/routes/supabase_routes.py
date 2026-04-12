@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Body, Header, HTTPException
 from pydantic import BaseModel
 
 from app.services.firebase_admin import verify_bearer_token
@@ -25,6 +25,8 @@ from app.services.supabase_client import (
     get_job_fit_result,
     get_aptitude_result,
     upsert_user,
+    upsert_resume_builder_draft,
+    get_resume_builder_draft,
 )
 
 router = APIRouter(prefix="/api/v1/supabase", tags=["Supabase"])
@@ -283,6 +285,38 @@ def log_aptitude_result(body: AptitudeResultBody, authorization: str = Header(de
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@router.post("/resume-builder")
+def save_resume_builder_draft(body: dict = Body(...), authorization: str = Header(default="")):
+    """Persist structured resume builder JSON (one row per user, upsert)."""
+    uid = firebase_uid_from_auth(authorization)
+    if not isinstance(body, dict):
+        raise HTTPException(status_code=400, detail="Body must be a JSON object")
+    try:
+        import json
+
+        raw = json.dumps(body)
+        if len(raw) > 900_000:
+            raise HTTPException(status_code=400, detail="Payload too large")
+        upsert_resume_builder_draft(uid, body)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return {"ok": True}
+
+
+@router.get("/resume-builder")
+def load_resume_builder_draft(authorization: str = Header(default="")):
+    uid = firebase_uid_from_auth(authorization)
+    try:
+        row = get_resume_builder_draft(uid)
+        if not row:
+            return {"draft": None}
+        return {"draft": row.get("payload"), "updated_at": row.get("updated_at")}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.get("/dashboard")
 def get_dashboard(authorization: str = Header(default="")):
     uid = firebase_uid_from_auth(authorization)
@@ -300,6 +334,10 @@ def get_dashboard(authorization: str = Header(default="")):
         job_fit = get_job_fit_result(uid)
         aptitude = get_aptitude_result(uid)
         skills = get_skill_analysis_for_user(uid)
+        try:
+            resume_builder = get_resume_builder_draft(uid)
+        except Exception:
+            resume_builder = None
 
         return {
             "user": user_row,
@@ -310,6 +348,7 @@ def get_dashboard(authorization: str = Header(default="")):
             "job_fit_result": job_fit,
             "aptitude_result": aptitude,
             "skill_analysis": skills,
+            "resume_builder_draft": resume_builder,
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

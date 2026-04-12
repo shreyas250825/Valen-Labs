@@ -9,4 +9,5 @@ alter table if exists public.interview_sessions enable row level security;
 alter table if exists public.interview_questions enable row level security;
 alter table if exists public.interview_reports enable row level security;
 alter table if exists public.skill_analysis enable row level security;
+alter table if exists public.resume_builder_drafts enable row level security;
 

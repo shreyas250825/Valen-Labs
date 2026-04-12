@@ -11,6 +11,8 @@ interface Props {
   canRemove: boolean;
 }
 
+const noop = () => {};
+
 export default function ProjectBlock({
   index,
   item,
@@ -52,6 +54,8 @@ export default function ProjectBlock({
         maxLength={L.description}
         multiline
         rows={4}
+        onEnhance={noop}
+        enhanceAllowEmpty
       />
     </div>
   );

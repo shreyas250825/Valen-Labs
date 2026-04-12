@@ -11,6 +11,8 @@ interface Props {
   canRemove: boolean;
 }
 
+const noop = () => {};
+
 export default function ExperienceBlock({
   index,
   item,
@@ -76,6 +78,8 @@ export default function ExperienceBlock({
         maxLength={L.bullet}
         multiline
         rows={2}
+        onEnhance={noop}
+        enhanceAllowEmpty
       />
       <InputBox
         label="Bullet 2"
@@ -85,6 +89,8 @@ export default function ExperienceBlock({
         maxLength={L.bullet}
         multiline
         rows={2}
+        onEnhance={noop}
+        enhanceAllowEmpty
       />
       <InputBox
         label="Bullet 3"
@@ -94,6 +100,8 @@ export default function ExperienceBlock({
         maxLength={L.bullet}
         multiline
         rows={2}
+        onEnhance={noop}
+        enhanceAllowEmpty
       />
     </div>
   );

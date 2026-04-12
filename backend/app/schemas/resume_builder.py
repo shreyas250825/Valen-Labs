@@ -34,18 +34,18 @@ class ExperienceItemModel(BaseModel):
     location: str = Field("", max_length=40)
     role: str = Field("", max_length=80)
     duration: str = Field("", max_length=30)
-    bullet1: str = Field("", max_length=120)
-    bullet2: str = Field("", max_length=120)
-    bullet3: str = Field("", max_length=120)
+    bullet1: str = Field("", max_length=200)
+    bullet2: str = Field("", max_length=200)
+    bullet3: str = Field("", max_length=200)
 
     @validator("bullet1", "bullet2", "bullet3", pre=True, always=True)
     def _strip_bullets(cls, v):
-        return (v or "")[:120]
+        return (v or "")[:200]
 
 
 class ProjectItemModel(BaseModel):
     title_tech: str = Field("", max_length=120, alias="titleTech")
-    description: str = Field("", max_length=180)
+    description: str = Field("", max_length=200)
 
     class Config:
         allow_population_by_field_name = True

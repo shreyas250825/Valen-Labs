@@ -2,8 +2,8 @@ export const LIMITS = {
   basics: { name: 40, email: 50, phone: 20, github: 60, portfolio: 60 },
   education: { college: 60, location: 40, degree: 80, gpa: 10, duration: 30, courses: 200 },
   skills: { languages: 120, frameworks: 150, tools: 120, platforms: 150, soft_skills: 120 },
-  experience: { company: 80, location: 40, role: 80, duration: 30, bullet: 120 },
-  project: { titleTech: 120, description: 180 },
+  experience: { company: 80, location: 40, role: 80, duration: 30, bullet: 200 },
+  project: { titleTech: 120, description: 200 },
   achievement: 120,
   volunteer: { roleOrg: 100, location: 40, description: 150, duration: 30 },
 } as const;

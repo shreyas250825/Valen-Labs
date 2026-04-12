@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import Layout from './components/layout/Layout';
 import ScrollToTop from './components/common/ScrollToTop';
 import LandingPage from './components/landing/LandingPage';
+import ComingSoonResumePage from './components/landing/ComingSoonResumePage';
 import ProfileSetup from './components/profile/ProfileSetup';
 import InterviewInterface from './components/interview/InterviewInterface';
 import FeedbackDashboard from './components/feedback/FeedbackDashboard';
@@ -70,7 +71,9 @@ function App() {
         <Route path="/login" element={<Navigate to="/signin" replace />} />
         <Route path="/signin" element={<Layout><SignInPage /></Layout>} />
         <Route path="/signup" element={<Layout><SignUpPage /></Layout>} />
-        
+        <Route path="/ai-resume-builder" element={<Layout><ComingSoonResumePage /></Layout>} />
+        <Route path="/coming-soon" element={<Navigate to="/ai-resume-builder" replace />} />
+
         {/* Protected routes - require sign in */}
         <Route
           path="/dashboard"

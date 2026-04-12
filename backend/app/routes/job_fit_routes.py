@@ -70,7 +70,29 @@ AVAILABLE_ROLES = [
     "Performance Engineer",
     "Infrastructure Engineer",
     "Release Engineer",
-    "Build Engineer"
+    "Build Engineer",
+    # Interview / manual setup (AI/ML, ECE, aerospace domains)
+    "AI/ML Engineer",
+    "Tech Lead",
+    "System Architect",
+    "QA Engineer",
+    "VLSI Design Engineer",
+    "FPGA Engineer",
+    "RF Engineer",
+    "Signal Processing Engineer",
+    "Control Systems Engineer",
+    "Hardware Engineer",
+    "Power Electronics Engineer",
+    "PCB Design Engineer",
+    "Aerospace Engineer",
+    "Avionics Engineer",
+    "Flight Controls Engineer",
+    "Propulsion Engineer",
+    "Aerodynamics Engineer",
+    "Structures Engineer",
+    "GNC Engineer",
+    "Satellite Systems Engineer",
+    "Systems Engineer (Aerospace)",
 ]
 
 

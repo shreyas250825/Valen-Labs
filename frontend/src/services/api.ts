@@ -2,7 +2,10 @@ import axios from 'axios';
 
 // Base URL for API requests - tries localhost first, falls back to Render backend
 const LOCAL_API_URL = 'http://localhost:8000';
-const RENDER_API_URL = 'https://valen-labs.onrender.com';
+/** Production / deployed API. Override with VITE_API_URL in Vercel or .env when Render URL changes. */
+const RENDER_API_URL =
+  (typeof import.meta.env.VITE_API_URL === 'string' && import.meta.env.VITE_API_URL.trim()) ||
+  'https://valen-labs.onrender.com';
 
 // Function to check if localhost is available
 const checkLocalhost = async (): Promise<boolean> => {

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Layout from '../layout/Layout';
 import { logJobFitResultToBackend } from '../../services/backendSupabase';
+import { API_BASE_URL } from '../../services/api';
 
 interface ParsedResumeData {
   skills: string[];
@@ -122,7 +123,7 @@ const JobFitAnalysis: React.FC = () => {
 
   const fetchAvailableRoles = async () => {
     try {
-      const response = await fetch('/api/job-fit/available-roles');
+      const response = await fetch(`${API_BASE_URL}/api/job-fit/available-roles`);
       if (response.ok) {
         const data: AvailableRole = await response.json();
         setAvailableRoles(data.roles);
@@ -157,7 +158,7 @@ const JobFitAnalysis: React.FC = () => {
       const formData = new FormData();
       formData.append('resume_file', file);
 
-      const response = await fetch('/api/job-fit/parse-resume', {
+      const response = await fetch(`${API_BASE_URL}/api/job-fit/parse-resume`, {
         method: 'POST',
         body: formData,
       });
@@ -211,7 +212,7 @@ const JobFitAnalysis: React.FC = () => {
       formData.append('parsed_resume', JSON.stringify(parsedData));
       formData.append('selected_role', roleToAnalyze);
 
-      const response = await fetch('/api/job-fit/analyze-with-role', {
+      const response = await fetch(`${API_BASE_URL}/api/job-fit/analyze-with-role`, {
         method: 'POST',
         body: formData,
       });

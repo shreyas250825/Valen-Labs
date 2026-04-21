@@ -2,23 +2,26 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Zap, Shield, BarChart3, Users, ChevronDown, MessageSquare } from "lucide-react";
 import { API_BASE_URL } from "../../services/api";
+import { useTheme } from "../../context/ThemeContext";
 import { firebaseAuth } from "../../lib/firebase";
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [feedback, setFeedback] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const canSubmit = useMemo(() => feedback.trim().length >= 10, [feedback]);
+  const isLightTheme = theme === "light";
 
   return (
-    <div className="overflow-x-hidden bg-black text-white">
+    <div className={`overflow-x-hidden transition-colors ${isLightTheme ? "bg-transparent text-slate-900" : "bg-black text-white"}`}>
       
       {/* HERO */}
       <section className="h-screen flex flex-col items-center justify-center text-center px-6 relative">
         
-        <div className="absolute w-[500px] h-[500px] bg-purple-600/10 blur-[140px] rounded-full -z-10 animate-pulse" />
+        <div className={`absolute w-[500px] h-[500px] blur-[140px] rounded-full -z-10 animate-pulse ${isLightTheme ? "bg-purple-500/10" : "bg-purple-600/10"}`} />
 
         <div className="max-w-5xl flex flex-col items-center">
           
@@ -36,7 +39,7 @@ const LandingPage: React.FC = () => {
           </h1>
 
           {/* Subheading */}
-          <p className="max-w-xl text-slate-400 text-base leading-relaxed mb-10">
+          <p className={`max-w-xl text-base leading-relaxed mb-10 ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
             A next-generation AI platform designed to simulate real-world interviews, analyze performance, 
             and guide you toward industry readiness with precision.
           </p>
@@ -51,14 +54,16 @@ const LandingPage: React.FC = () => {
                 navigate("/signup");
               }
             }}
-            className="px-10 py-4 bg-white text-black font-bold rounded-xl hover:scale-105 transition-all"
+            className={`px-10 py-4 font-bold rounded-xl hover:scale-105 transition-all ${
+              isLightTheme ? "bg-slate-900 text-white" : "bg-white text-black"
+            }`}
           >
             Get Started
           </button>
         </div>
 
         {/* Scroll */}
-        <div className="absolute bottom-10 flex flex-col items-center gap-2 opacity-30 animate-bounce">
+        <div className={`absolute bottom-10 flex flex-col items-center gap-2 animate-bounce ${isLightTheme ? "text-slate-500 opacity-60" : "opacity-30"}`}>
           <span className="text-[10px] tracking-widest uppercase">Scroll</span>
           <ChevronDown size={16} />
         </div>
@@ -71,15 +76,15 @@ const LandingPage: React.FC = () => {
           <h2 className="text-5xl font-bold leading-tight mb-6">
             Built for <span className="text-purple-500">Real Outcomes</span>
           </h2>
-          <p className="text-slate-400 text-lg leading-relaxed">
+          <p className={`text-lg leading-relaxed ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
             Valen AI bridges the gap between academic learning and industry expectations 
             by providing structured, AI-driven interview simulations and insights.
           </p>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-12 text-center">
+        <div className={`rounded-3xl p-12 text-center border ${isLightTheme ? "bg-white border-slate-200 shadow-sm" : "bg-white/5 border-white/10"}`}>
           <p className="text-3xl font-bold">AI-Powered</p>
-          <p className="text-sm text-slate-500 mt-2">Adaptive Intelligence Engine</p>
+          <p className={`text-sm mt-2 ${isLightTheme ? "text-slate-500" : "text-slate-500"}`}>Adaptive Intelligence Engine</p>
         </div>
       </section>
 
@@ -90,7 +95,7 @@ const LandingPage: React.FC = () => {
           <h2 className="text-4xl font-bold">
             Core Capabilities
           </h2>
-          <p className="text-slate-500 mt-2 text-sm">
+          <p className={`mt-2 text-sm ${isLightTheme ? "text-slate-500" : "text-slate-500"}`}>
             Built for precision and real-time feedback
           </p>
         </div>
@@ -118,14 +123,14 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* VISION */}
-      <section className="border-t border-white/10 py-24 px-6">
+      <section className={`py-24 px-6 border-t ${isLightTheme ? "border-slate-200" : "border-white/10"}`}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           
           <div>
             <h2 className="text-4xl font-bold mb-6">
               Designed for Scale
             </h2>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className={`text-sm leading-relaxed ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
               Valen AI is built to integrate with institutions, training platforms, 
               and individual users — creating a unified ecosystem for career preparation.
             </p>
@@ -136,8 +141,8 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl h-32 flex items-center justify-center">
-            <p className="text-slate-500 text-xs uppercase tracking-widest">
+          <div className={`rounded-2xl h-32 flex items-center justify-center border ${isLightTheme ? "bg-white border-slate-200 shadow-sm" : "bg-white/5 border-white/10"}`}>
+            <p className={`text-xs uppercase tracking-widest ${isLightTheme ? "text-slate-500" : "text-slate-500"}`}>
               Scalable AI Platform
             </p>
           </div>
@@ -145,7 +150,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* BETA FEEDBACK */}
-      <section className="border-t border-white/10 py-20 px-6">
+      <section className={`py-20 px-6 border-t ${isLightTheme ? "border-slate-200" : "border-white/10"}`}>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
           <div>
             <div className="inline-flex items-center gap-2 text-[10px] tracking-[0.4em] uppercase text-purple-400 mb-4">
@@ -155,13 +160,13 @@ const LandingPage: React.FC = () => {
             <h2 className="text-4xl font-bold mb-4">
               Help us improve <span className="text-purple-500">Valen AI</span>
             </h2>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className={`text-sm leading-relaxed ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
               This is a beta version. Tell us what’s confusing, what’s missing, or what you want next.
               If you leave your email, we may reply for details.
             </p>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
+          <div className={`rounded-3xl p-8 border ${isLightTheme ? "bg-white border-slate-200 shadow-sm" : "bg-white/5 border-white/10"}`}>
             <label className="block text-xs uppercase tracking-widest text-slate-500 mb-2">
               How can we improve?
             </label>
@@ -170,7 +175,11 @@ const LandingPage: React.FC = () => {
               onChange={(e) => setFeedback(e.target.value)}
               rows={5}
               placeholder="Example: The dashboard is slow on mobile. I want a clear 'next steps' section after reports…"
-              className="w-full rounded-2xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/10 transition"
+              className={`w-full rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/10 transition ${
+                isLightTheme
+                  ? "bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400"
+                  : "bg-black/40 border border-white/10 text-white placeholder:text-slate-600"
+              }`}
             />
 
             <div className="mt-4">
@@ -181,7 +190,11 @@ const LandingPage: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-2xl bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-400/50 focus:ring-2 focus:ring-emerald-400/10 transition"
+                className={`w-full rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-400/50 focus:ring-2 focus:ring-emerald-400/10 transition ${
+                  isLightTheme
+                    ? "bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400"
+                    : "bg-black/40 border border-white/10 text-white placeholder:text-slate-600"
+                }`}
               />
             </div>
 
@@ -224,8 +237,12 @@ const LandingPage: React.FC = () => {
                 }}
                 className={`px-6 py-3 rounded-xl font-bold transition-all ${
                   canSubmit
-                    ? "bg-white text-black hover:scale-105"
-                    : "bg-white/10 text-slate-500 cursor-not-allowed"
+                    ? isLightTheme
+                      ? "bg-slate-900 text-white hover:scale-105"
+                      : "bg-white text-black hover:scale-105"
+                    : isLightTheme
+                      ? "bg-slate-200 text-slate-500 cursor-not-allowed"
+                      : "bg-white/10 text-slate-500 cursor-not-allowed"
                 }`}
               >
                 {status === "submitting" ? "Sending..." : "Send feedback"}
@@ -251,11 +268,20 @@ const LandingPage: React.FC = () => {
 };
 
 function FeatureBox({ title, desc, icon }: any) {
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
+
   return (
-    <div className="p-8 bg-white/5 border border-white/10 rounded-2xl hover:border-purple-500/40 transition-all">
+    <div
+      className={`p-8 rounded-2xl transition-all ${
+        isLightTheme
+          ? "bg-white border border-slate-200 shadow-sm hover:border-purple-300"
+          : "bg-white/5 border border-white/10 hover:border-purple-500/40"
+      }`}
+    >
       <div className="mb-4">{icon}</div>
       <h3 className="font-semibold mb-2">{title}</h3>
-      <p className="text-sm text-slate-500">{desc}</p>
+      <p className={`text-sm ${isLightTheme ? "text-slate-600" : "text-slate-500"}`}>{desc}</p>
     </div>
   );
 }

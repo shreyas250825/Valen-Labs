@@ -19,6 +19,7 @@ import { ResumeBuilder } from './features/resume-builder';
 import SignInPage from "./components/auth/SignInPage";
 import SignUpPage from "./components/auth/SignUpPage";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import { ThemeProvider } from "./context/ThemeContext";
 import { firebaseAuth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import type { User } from "firebase/auth";
@@ -63,101 +64,103 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <ScrollToTop />
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<Layout><LandingPage /></Layout>} />
-        <Route path="/about" element={<Layout><AboutPage /></Layout>} />
-        <Route path="/login" element={<Navigate to="/signin" replace />} />
-        <Route path="/signin" element={<Layout><SignInPage /></Layout>} />
-        <Route path="/signup" element={<Layout><SignUpPage /></Layout>} />
-        <Route path="/ai-resume-builder" element={<Layout><ComingSoonResumePage /></Layout>} />
-        <Route path="/coming-soon" element={<Navigate to="/ai-resume-builder" replace />} />
+    <ThemeProvider>
+      <Router>
+        <ScrollToTop />
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Layout><LandingPage /></Layout>} />
+          <Route path="/about" element={<Layout><AboutPage /></Layout>} />
+          <Route path="/login" element={<Navigate to="/signin" replace />} />
+          <Route path="/signin" element={<Layout><SignInPage /></Layout>} />
+          <Route path="/signup" element={<Layout><SignUpPage /></Layout>} />
+          <Route path="/ai-resume-builder" element={<Layout><ComingSoonResumePage /></Layout>} />
+          <Route path="/coming-soon" element={<Navigate to="/ai-resume-builder" replace />} />
 
-        {/* Protected routes - require sign in */}
-        <Route
-          path="/dashboard"
-          element={
-            <RequireAuth>
-              <Layout><Dashboard /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/report"
-          element={
-            <RequireAuth>
-              <Layout><Report /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/setup"
-          element={
-            <RequireAuth>
-              <Layout><ProfileSetup /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/interview"
-          element={
-            <RequireAuth>
-              <Layout><InterviewInterface /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/feedback"
-          element={
-            <RequireAuth>
-              <Layout><FeedbackDashboard /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/reports"
-          element={
-            <RequireAuth>
-              <Layout><ReportList /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/reports/:sessionId"
-          element={
-            <RequireAuth>
-              <Layout><ReportViewer /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/aptitude"
-          element={
-            <RequireAuth>
-              <Layout><AptitudeAssessment /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/job-fit"
-          element={
-            <RequireAuth>
-              <Layout><JobFitAnalysis /></Layout>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/dashboard/resume-builder"
-          element={
-            <RequireAuth>
-              <Layout><ResumeBuilder /></Layout>
-            </RequireAuth>
-          }
-        />
-      </Routes>
-    </Router>
+          {/* Protected routes - require sign in */}
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth>
+                <Layout><Dashboard /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/report"
+            element={
+              <RequireAuth>
+                <Layout><Report /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/setup"
+            element={
+              <RequireAuth>
+                <Layout><ProfileSetup /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/interview"
+            element={
+              <RequireAuth>
+                <Layout><InterviewInterface /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/feedback"
+            element={
+              <RequireAuth>
+                <Layout><FeedbackDashboard /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <RequireAuth>
+                <Layout><ReportList /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/reports/:sessionId"
+            element={
+              <RequireAuth>
+                <Layout><ReportViewer /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/aptitude"
+            element={
+              <RequireAuth>
+                <Layout><AptitudeAssessment /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/job-fit"
+            element={
+              <RequireAuth>
+                <Layout><JobFitAnalysis /></Layout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/dashboard/resume-builder"
+            element={
+              <RequireAuth>
+                <Layout><ResumeBuilder /></Layout>
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

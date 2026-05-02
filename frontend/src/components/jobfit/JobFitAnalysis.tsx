@@ -304,25 +304,25 @@ const JobFitAnalysis: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#020617] text-white">
+      <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white">
         {/* Animated Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
         
-        <div className="max-w-4xl mx-auto px-6 py-8 relative z-10">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 pt-[15px] pb-10 relative z-10">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-black tracking-tighter uppercase mb-4 bg-gradient-to-r from-purple-600 to-sky-600 bg-clip-text text-transparent">
+          <div className="text-center mb-4">
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase mb-3 bg-gradient-to-r from-purple-600 to-sky-600 bg-clip-text text-transparent">
               AI Job Fit Analysis
             </h1>
-            <p className="text-gray-400 text-lg">Upload resume → Select role → Get AI-powered analysis</p>
+            <p className="text-gray-400 text-base sm:text-lg">Upload resume → Select role → Get AI-powered analysis</p>
           </div>
 
           {/* Progress Steps */}
-          <div className="flex justify-center mb-8">
-            <div className="flex items-center space-x-4">
+          <div className="flex justify-center mb-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
               {[
                 { step: 'upload', label: 'Upload Resume', icon: Upload },
                 { step: 'role-selection', label: 'Select Role', icon: Briefcase },
@@ -349,9 +349,11 @@ const JobFitAnalysis: React.FC = () => {
                       {label}
                     </span>
                     {index < 3 && (
-                      <div className={`w-8 h-0.5 mx-4 ${
-                        isCompleted ? 'bg-emerald-400' : 'bg-gray-600'
-                      }`} />
+                      <div
+                        className={`hidden md:block w-8 h-0.5 mx-4 ${
+                          isCompleted ? 'bg-emerald-400' : 'bg-gray-600'
+                        }`}
+                      />
                     )}
                   </div>
                 );

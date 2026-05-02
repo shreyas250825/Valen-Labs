@@ -138,7 +138,7 @@ function App() {
             path="/aptitude"
             element={
               <RequireAuth>
-                <Layout><AptitudeAssessment /></Layout>
+                <AptitudeAssessment />
               </RequireAuth>
             }
           />
@@ -146,7 +146,7 @@ function App() {
             path="/job-fit"
             element={
               <RequireAuth>
-                <Layout><JobFitAnalysis /></Layout>
+                <JobFitAnalysis />
               </RequireAuth>
             }
           />

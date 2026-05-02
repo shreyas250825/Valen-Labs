@@ -25,12 +25,14 @@ type AssessmentState = 'start' | 'assessment' | 'completed';
 
 const AptitudeAssessment: React.FC = () => {
   const navigate = useNavigate();
+  const TOTAL_QUESTIONS = 15;
+  const TOTAL_TIME_SECONDS = 15 * 60; // 15 minutes
   const [assessmentState, setAssessmentState] = useState<AssessmentState>('start');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState<AptitudeQuestion[]>([]);
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
-  const [timeRemaining, setTimeRemaining] = useState(300); // 5 minutes for 5 questions
+  const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SECONDS);
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<AptitudeResult[]>([]);
   const [overallScore, setOverallScore] = useState(0);
@@ -957,7 +959,7 @@ const AptitudeAssessment: React.FC = () => {
 
   // Function to select questions based on difficulty distribution
   const selectQuestionsByDifficulty = (questions: AptitudeQuestion[]) => {
-    // Distribute questions: 2 easy, 2 medium, 1 hard (total 5 questions)
+    // Distribute questions: 5 easy, 7 medium, 3 hard (total 15 questions)
     const easyQuestions = questions.filter(q => q.difficulty === 'easy');
     const mediumQuestions = questions.filter(q => q.difficulty === 'medium');
     const hardQuestions = questions.filter(q => q.difficulty === 'hard');
@@ -969,9 +971,9 @@ const AptitudeAssessment: React.FC = () => {
 
     // Select questions from each difficulty level
     const selectedQuestions = [
-      ...shuffledEasy.slice(0, 2),    // 2 easy questions
-      ...shuffledMedium.slice(0, 2),  // 2 medium questions
-      ...shuffledHard.slice(0, 1)     // 1 hard question
+      ...shuffledEasy.slice(0, 5),    // 5 easy questions
+      ...shuffledMedium.slice(0, 7),  // 7 medium questions
+      ...shuffledHard.slice(0, 3)     // 3 hard questions
     ];
 
     // Final shuffle to randomize the order
@@ -994,16 +996,16 @@ const AptitudeAssessment: React.FC = () => {
     try {
       // For now, use comprehensive question bank
       setTimeout(() => {
-        // Select 5 questions with balanced difficulty distribution
+        // Select 15 questions with balanced difficulty distribution
         const selectedQuestions = selectQuestionsByDifficulty(allQuestions);
         setQuestions(selectedQuestions);
         setUserAnswers(new Array(selectedQuestions.length).fill(''));
-        setTimeRemaining(300); // Reset timer to 5 minutes
+        setTimeRemaining(TOTAL_TIME_SECONDS); // Reset timer
         setIsLoading(false);
       }, 800); // Reduced loading time for faster experience
     } catch (error) {
       // Failed to load questions, use fallback
-      const fallbackQuestions = allQuestions.slice(0, 5);
+      const fallbackQuestions = allQuestions.slice(0, TOTAL_QUESTIONS);
       setQuestions(fallbackQuestions);
       setUserAnswers(new Array(fallbackQuestions.length).fill(''));
       setIsLoading(false);
@@ -1090,7 +1092,7 @@ const AptitudeAssessment: React.FC = () => {
           overall_score: score,
           correct_answers: correctAnswers,
           total_questions: generatedResults.length,
-          duration: formatTime(300 - timeRemaining), // Updated for 5 minutes
+          duration: formatTime(TOTAL_TIME_SECONDS - timeRemaining),
           test_type: "Quick Assessment",
           results: generatedResults
         };
@@ -1104,7 +1106,7 @@ const AptitudeAssessment: React.FC = () => {
           overall_score: score,
           correct_answers: correctAnswers,
           total_questions: generatedResults.length,
-          duration_seconds: 300 - timeRemaining,
+          duration_seconds: TOTAL_TIME_SECONDS - timeRemaining,
           results: generatedResults,
         }).catch((e) => console.error('Failed to store aptitude result:', e));
         
@@ -1167,7 +1169,7 @@ const AptitudeAssessment: React.FC = () => {
           overall_score: score,
           correct_answers: correctAnswers,
           total_questions: generatedResults.length,
-          duration: formatTime(300 - timeRemaining),
+          duration: formatTime(TOTAL_TIME_SECONDS - timeRemaining),
           test_type: "Quick Assessment (Early End)",
           results: generatedResults,
           ended_early: true
@@ -1182,7 +1184,7 @@ const AptitudeAssessment: React.FC = () => {
           overall_score: score,
           correct_answers: correctAnswers,
           total_questions: generatedResults.length,
-          duration_seconds: 300 - timeRemaining,
+          duration_seconds: TOTAL_TIME_SECONDS - timeRemaining,
           results: generatedResults,
         }).catch((e) => console.error('Failed to store aptitude result:', e));
         
@@ -1220,11 +1222,11 @@ const AptitudeAssessment: React.FC = () => {
   if (isLoading && assessmentState === 'assessment') {
     return (
       <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 flex items-center justify-center">
+        <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 flex items-center justify-center">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-white text-lg">Loading Quick Assessment...</p>
-            <p className="text-gray-400 text-sm mt-2">Selecting 5 questions from 110+ question bank</p>
+            <p className="text-gray-400 text-sm mt-2">Selecting 15 questions from 110+ question bank</p>
           </div>
         </div>
       </Layout>
@@ -1235,20 +1237,20 @@ const AptitudeAssessment: React.FC = () => {
   if (assessmentState === 'start') {
     return (
       <Layout>
-        <div className="min-h-screen bg-[#020617] text-white">
+        <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white">
           {/* Animated Background */}
           <div className="fixed inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
           </div>
           
-          <div className="max-w-4xl mx-auto px-6 py-8 relative z-10">
+          <div className="max-w-5xl mx-auto px-5 sm:px-6 pt-0 pb-10 relative z-10">
             {/* Header */}
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-purple-600 to-sky-600 rounded-full mb-6 transform hover:scale-110 transition-transform duration-300 shadow-[0_0_20px_rgba(139,92,246,0.5)]">
-                <Brain className="w-12 h-12 text-white" />
+            <div className="text-center mb-5">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-sky-600 rounded-full mb-4 transform hover:scale-110 transition-transform duration-300 shadow-[0_0_20px_rgba(139,92,246,0.5)]">
+                <Brain className="w-10 h-10 text-white" />
               </div>
-              <h1 className="text-6xl font-black tracking-tighter uppercase mb-4 bg-gradient-to-r from-purple-600 to-sky-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter uppercase mb-3 bg-gradient-to-r from-purple-600 to-sky-600 bg-clip-text text-transparent">
                 Aptitude Assessment
               </h1>
               <p className="text-gray-400 text-lg max-w-2xl mx-auto">
@@ -1257,12 +1259,12 @@ const AptitudeAssessment: React.FC = () => {
             </div>
 
             {/* Assessment Info */}
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <div className="grid md:grid-cols-3 gap-6 mb-10">
               <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 text-center">
                 <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Timer className="w-8 h-8 text-purple-400" />
                 </div>
-                <h3 className="text-xl font-black tracking-tighter uppercase mb-2">5 Minutes</h3>
+                <h3 className="text-xl font-black tracking-tighter uppercase mb-2">15 Minutes</h3>
                 <p className="text-gray-400 text-sm">Time limit for completion</p>
               </div>
               
@@ -1270,7 +1272,7 @@ const AptitudeAssessment: React.FC = () => {
                 <div className="w-16 h-16 bg-sky-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Target className="w-8 h-8 text-sky-400" />
                 </div>
-                <h3 className="text-xl font-black tracking-tighter uppercase mb-2">5 Questions</h3>
+                <h3 className="text-xl font-black tracking-tighter uppercase mb-2">15 Questions</h3>
                 <p className="text-gray-400 text-sm">From 110+ question bank</p>
               </div>
               
@@ -1308,7 +1310,7 @@ const AptitudeAssessment: React.FC = () => {
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
-                  <span>You have 5 minutes to complete 5 questions</span>
+                  <span>You have 15 minutes to complete 15 questions</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
@@ -1369,8 +1371,8 @@ const AptitudeAssessment: React.FC = () => {
 
     return (
       <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white">
-          <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white">
+          <div className="max-w-5xl mx-auto px-5 sm:px-6 pt-3 pb-10">
             {/* Results Header */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-sky-400 to-cyan-500 rounded-full mb-4">
@@ -1396,7 +1398,7 @@ const AptitudeAssessment: React.FC = () => {
               </div>
               <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
                 <div className="text-4xl font-bold mb-2 text-sky-400">
-                  {formatTime(900 - timeRemaining)}
+                  {formatTime(TOTAL_TIME_SECONDS - timeRemaining)}
                 </div>
                 <div className="text-gray-400">Time Taken</div>
               </div>
@@ -1522,7 +1524,7 @@ const AptitudeAssessment: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#020617] text-white">
+      <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white">
         {/* End Test Confirmation Dialog */}
         {showEndTestConfirm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -1558,12 +1560,12 @@ const AptitudeAssessment: React.FC = () => {
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
-        <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 pt-2 pb-10">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold mb-2">Quick Aptitude & Logical Reasoning Assessment</h1>
-              <p className="text-gray-400">5 carefully selected questions from a bank of 110+ real interview questions</p>
+              <p className="text-gray-400">15 carefully selected questions from a bank of 110+ real interview questions</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-xl">

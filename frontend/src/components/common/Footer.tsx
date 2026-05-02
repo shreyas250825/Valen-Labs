@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -30,9 +31,9 @@ const Footer = () => {
           <div>
             <h3 className={`text-sm font-semibold mb-4 ${isLightTheme ? "text-slate-900" : "text-white"}`}>Product</h3>
             <ul className={`space-y-3 text-sm ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
-              <li><a href="#features" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Features</a></li>
-              <li><a href="#demo" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Demo</a></li>
-              <li><a href="#pricing" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Pricing</a></li>
+              <li><Link to="/#features" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Features</Link></li>
+              <li><Link to="/#demo" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Demo</Link></li>
+              <li><Link to="/#pricing" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Pricing</Link></li>
             </ul>
           </div>
 
@@ -40,9 +41,9 @@ const Footer = () => {
           <div>
             <h3 className={`text-sm font-semibold mb-4 ${isLightTheme ? "text-slate-900" : "text-white"}`}>Company</h3>
             <ul className={`space-y-3 text-sm ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
-              <li><a href="#about" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>About</a></li>
-              <li><a href="#contact" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Contact</a></li>
-              <li><a href="#privacy" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Privacy</a></li>
+              <li><Link to="/#about" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>About</Link></li>
+              <li><Link to="/#contact" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Contact</Link></li>
+              <li><Link to="/#privacy" className={isLightTheme ? "hover:text-slate-900" : "hover:text-white"}>Privacy</Link></li>
             </ul>
           </div>
         </div>

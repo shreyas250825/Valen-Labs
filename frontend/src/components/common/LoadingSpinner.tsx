@@ -1,7 +1,11 @@
 import React from 'react';
 import { Sparkles, Zap, Brain } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const LoadingSpinner: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'xl'; text?: string }> = ({ size = 'lg', text = 'Loading...' }) => {
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
+
   const sizes = {
     sm: { container: 'w-16 h-16', icon: 'w-8 h-8' },
     md: { container: 'w-24 h-24', icon: 'w-12 h-12' },
@@ -10,7 +14,7 @@ const LoadingSpinner: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'xl'; text?: string
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-[#020617] relative">
+    <div className={`w-full h-screen flex flex-col items-center justify-center relative ${isLightTheme ? "bg-slate-50" : "bg-[#020617]"}`}>
       {/* Animated Background Glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -56,7 +60,13 @@ const LoadingSpinner: React.FC<{ size?: 'sm' | 'md' | 'lg' | 'xl'; text?: string
       {/* Loading Text */}
       {text && (
         <div className="mt-12 text-center relative z-10 px-4">
-          <p className="text-2xl md:text-4xl font-black tracking-tighter uppercase bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent mb-6">
+          <p
+            className={`text-2xl md:text-4xl font-black tracking-tighter uppercase mb-6 ${
+              isLightTheme
+                ? "bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent"
+                : "bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent"
+            }`}
+          >
             {text}
           </p>
           <div className="flex items-center justify-center space-x-3">

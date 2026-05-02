@@ -8,6 +8,7 @@ import {
 import Layout from '../layout/Layout';
 import { logJobFitResultToBackend } from '../../services/backendSupabase';
 import { API_BASE_URL } from '../../services/api';
+import { useTheme } from '../../context/ThemeContext';
 
 interface ParsedResumeData {
   skills: string[];
@@ -70,6 +71,8 @@ type FlowStep = 'upload' | 'role-selection' | 'analysis' | 'results';
 
 const JobFitAnalysis: React.FC = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
   const [currentStep, setCurrentStep] = useState<FlowStep>('upload');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -304,7 +307,13 @@ const JobFitAnalysis: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white">
+      <div
+        className={`min-h-[calc(100vh-88px)] ${
+          isLightTheme
+            ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900"
+            : "bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white"
+        }`}
+      >
         {/* Animated Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -374,7 +383,7 @@ const JobFitAnalysis: React.FC = () => {
 
           {/* Step 1: Upload Resume */}
           {currentStep === 'upload' && (
-            <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-8">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-8 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
               {/* Check if existing resume data is available */}
               {(() => {
                 const existingProfile = localStorage.getItem('interviewProfile');
@@ -462,7 +471,7 @@ const JobFitAnalysis: React.FC = () => {
           {currentStep === 'role-selection' && parsedData && (
             <div className="space-y-6">
               {/* Parsed Resume Summary */}
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <div className="flex items-center gap-2 mb-4">
                   <CheckCircle className="w-6 h-6 text-emerald-400" />
                   <h3 className="text-xl font-black tracking-tighter uppercase">Resume Parsed Successfully</h3>
@@ -508,7 +517,7 @@ const JobFitAnalysis: React.FC = () => {
               </div>
 
               {/* Role Selection */}
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <h3 className="text-xl font-black tracking-tighter uppercase mb-4">Select Target Role</h3>
                 
                 {/* Auto-selected role notification */}
@@ -657,7 +666,7 @@ const JobFitAnalysis: React.FC = () => {
 
           {/* Step 3: Analysis */}
           {currentStep === 'analysis' && (
-            <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-8">
+            <div className={`backdrop-blur-3xl rounded-[32px] p-8 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
               <div className="text-center">
                 <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-purple-600 to-sky-600 rounded-full flex items-center justify-center">
                   {!isAnalyzing ? (
@@ -708,7 +717,7 @@ const JobFitAnalysis: React.FC = () => {
           {currentStep === 'results' && analysisResult && (
             <div className="space-y-6">
               {/* Overall Results */}
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <h3 className="text-2xl font-black tracking-tighter uppercase mb-6 text-center">
                   Job Fit Analysis Results
                 </h3>
@@ -754,7 +763,7 @@ const JobFitAnalysis: React.FC = () => {
               {/* Detailed Analysis */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Matched Skills */}
-                <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6">
+                <div className={`backdrop-blur-3xl rounded-[32px] p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                   <h4 className="font-black tracking-tighter uppercase mb-4 text-emerald-400 flex items-center gap-2">
                     <CheckCircle className="w-5 h-5" />
                     Matched Skills
@@ -772,7 +781,7 @@ const JobFitAnalysis: React.FC = () => {
                 </div>
 
                 {/* Missing Skills */}
-                <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6">
+                <div className={`backdrop-blur-3xl rounded-[32px] p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                   <h4 className="font-black tracking-tighter uppercase mb-4 text-red-400 flex items-center gap-2">
                     <AlertCircle className="w-5 h-5" />
                     Skills to Develop
@@ -794,7 +803,7 @@ const JobFitAnalysis: React.FC = () => {
               </div>
 
               {/* Next Steps */}
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <h4 className="font-black tracking-tighter uppercase mb-4 text-sky-400 flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
                   Recommended Next Steps

@@ -34,9 +34,12 @@ import {
 import { fetchDashboardFromBackend } from "../../services/backendSupabase";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../../lib/firebase";
+import { useTheme } from "../../context/ThemeContext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
 
   // State for comprehensive user data
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -420,10 +423,10 @@ const Dashboard = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-slate-400">Loading your dashboard...</p>
+            <p className={isLightTheme ? "text-slate-600" : "text-slate-400"}>Loading your dashboard...</p>
           </div>
         </div>
       </Layout>
@@ -432,7 +435,7 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-black text-white px-4 md:px-6 py-24 overflow-x-hidden">
+      <div className={`min-h-screen px-4 md:px-6 py-24 overflow-x-hidden ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
         {/* Header Section */}
         <div className="max-w-7xl mx-auto mb-16">
           <div className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-medium uppercase tracking-wider mb-4">
@@ -441,7 +444,7 @@ const Dashboard = () => {
           <h1 className="text-4xl md:text-5xl font-bold mb-3">
             Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-emerald-400">{userName}</span>
           </h1>
-          <p className="text-slate-400 max-w-2xl text-lg">
+          <p className={`max-w-2xl text-lg ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
             Monitor your interview readiness, track performance trends, and get AI‑powered recommendations to accelerate your career growth.
           </p>
           <div className="flex flex-wrap gap-4 mt-8">
@@ -454,7 +457,11 @@ const Dashboard = () => {
             </button>
             <button
               onClick={() => navigate("/reports")}
-              className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl font-semibold hover:bg-white/10 transition flex items-center gap-2"
+              className={`px-6 py-3 rounded-xl font-semibold transition flex items-center gap-2 ${
+                isLightTheme
+                  ? "bg-white border border-slate-200 text-slate-800 hover:bg-slate-100"
+                  : "bg-white/5 border border-white/10 hover:bg-white/10"
+              }`}
             >
               <BarChart3 size={18} />
               View All Reports
@@ -470,6 +477,7 @@ const Dashboard = () => {
             icon={Video}
             change={userStats.totalInterviews > 0 ? "+2" : undefined}
             description="Total sessions"
+            isLightTheme={isLightTheme}
           />
           <StatCard
             label="Job Fits"
@@ -477,6 +485,7 @@ const Dashboard = () => {
             icon={Target}
             change={userStats.totalJobFits > 0 ? "+1" : undefined}
             description={latestJobFitScore != null ? `Latest score: ${latestJobFitScore}%` : "Role analyses"}
+            isLightTheme={isLightTheme}
           />
           <StatCard
             label="Aptitude Tests"
@@ -484,6 +493,7 @@ const Dashboard = () => {
             icon={Brain}
             change={userStats.totalAptitude > 0 ? "+3" : undefined}
             description={latestAptitudeScore != null ? `Latest score: ${latestAptitudeScore}%` : "Assessments"}
+            isLightTheme={isLightTheme}
           />
           <StatCard
             label="Avg. Score"
@@ -495,6 +505,7 @@ const Dashboard = () => {
                 : undefined
             }
             description="Overall performance"
+            isLightTheme={isLightTheme}
           />
         </div>
 
@@ -506,10 +517,10 @@ const Dashboard = () => {
           </h2>
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Line Chart - Score Trend */}
-            <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className={`lg:col-span-2 rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/5 border border-white/10"}`}>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-medium">Score Trend (Last 10 Sessions)</h3>
-                <div className="text-xs text-slate-500">Higher is better</div>
+                <div className={`text-xs ${isLightTheme ? "text-slate-500" : "text-slate-500"}`}>Higher is better</div>
               </div>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -540,7 +551,7 @@ const Dashboard = () => {
             </div>
 
             {/* Bar Chart - Activity Distribution */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className={`rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/5 border border-white/10"}`}>
               <h3 className="font-medium mb-4">Activity Distribution</h3>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -589,6 +600,7 @@ const Dashboard = () => {
               }
               icon={TrendingUp}
               color={userStats.improvementRate > 0 ? "text-emerald-400" : "text-amber-400"}
+              isLightTheme={isLightTheme}
             />
             <InsightCard
               title="Focus Area"
@@ -596,6 +608,7 @@ const Dashboard = () => {
               desc="Your answers lack depth in system design. Practice with real-world scenarios."
               icon={Target}
               color="text-blue-400"
+              isLightTheme={isLightTheme}
             />
             <InsightCard
               title="Streak"
@@ -603,6 +616,7 @@ const Dashboard = () => {
               desc="You're on a roll! Consistency builds mastery."
               icon={Zap}
               color="text-orange-400"
+              isLightTheme={isLightTheme}
             />
             <InsightCard
               title="Readiness Score"
@@ -610,6 +624,7 @@ const Dashboard = () => {
               desc="Estimated interview readiness based on your performance."
               icon={Shield}
               color="text-purple-400"
+              isLightTheme={isLightTheme}
             />
           </div>
         </div>
@@ -626,30 +641,35 @@ const Dashboard = () => {
               icon={Brain}
               onClick={() => handleStartInterview("technical")}
               description="Algorithms & System Design"
+              isLightTheme={isLightTheme}
             />
             <ActionCard
               name="Behavioral"
               icon={Users}
               onClick={() => handleStartInterview("behavioral")}
               description="Leadership & Culture Fit"
+              isLightTheme={isLightTheme}
             />
             <ActionCard
               name="Aptitude"
               icon={Target}
               onClick={() => navigate("/aptitude")}
               description="Logical & Quantitative"
+              isLightTheme={isLightTheme}
             />
             <ActionCard
               name="Job Fit"
               icon={BarChart3}
               onClick={() => navigate("/job-fit")}
               description="Role Compatibility"
+              isLightTheme={isLightTheme}
             />
             <ActionCard
               name="Resume"
               icon={FileText}
               onClick={() => navigate("/dashboard/resume-builder")}
               description="Structured → LaTeX → PDF"
+              isLightTheme={isLightTheme}
             />
           </div>
         </div>
@@ -663,7 +683,7 @@ const Dashboard = () => {
             </h2>
             <button
               onClick={() => navigate("/reports")}
-              className="text-sm text-slate-400 hover:text-white flex items-center gap-1 transition"
+              className={`text-sm flex items-center gap-1 transition ${isLightTheme ? "text-slate-500 hover:text-slate-900" : "text-slate-400 hover:text-white"}`}
             >
               View all <ChevronRight size={16} />
             </button>
@@ -675,13 +695,17 @@ const Dashboard = () => {
                 <button
                   key={activity.id}
                   onClick={() => handleViewReport(activity.id, activity.type)}
-                  className="w-full p-5 bg-white/5 border border-white/10 rounded-xl hover:border-purple-500/40 transition-all text-left group"
+                  className={`w-full p-5 rounded-xl transition-all text-left group ${
+                    isLightTheme
+                      ? "bg-white border border-slate-200 hover:border-purple-400/50"
+                      : "bg-white/5 border border-white/10 hover:border-purple-500/40"
+                  }`}
                 >
                   <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                       <span className="text-3xl">{activity.icon}</span>
                       <div>
-                        <p className="font-medium text-white group-hover:text-purple-400 transition">
+                        <p className={`font-medium transition ${isLightTheme ? "text-slate-900 group-hover:text-purple-600" : "text-white group-hover:text-purple-400"}`}>
                           {activity.type}
                         </p>
                         <p className="text-sm text-slate-500">{activity.subtype}</p>
@@ -689,7 +713,7 @@ const Dashboard = () => {
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="text-right">
-                        <p className="text-xl font-bold text-white">{activity.score}</p>
+                        <p className={`text-xl font-bold ${isLightTheme ? "text-slate-900" : "text-white"}`}>{activity.score}</p>
                         <p className="text-xs text-slate-500">Score</p>
                       </div>
                       <div className="text-right min-w-[100px]">
@@ -706,7 +730,7 @@ const Dashboard = () => {
                 </button>
               ))
             ) : (
-              <div className="p-12 bg-white/5 border border-white/10 rounded-xl text-center">
+              <div className={`p-12 rounded-xl text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/5 border border-white/10"}`}>
                 <History size={48} className="mx-auto mb-4 text-slate-600" />
                 <p className="text-slate-400 mb-2">No activities yet</p>
                 <p className="text-sm text-slate-500">
@@ -732,10 +756,15 @@ interface StatCardProps {
   icon: React.ElementType;
   change?: string;
   description?: string;
+  isLightTheme?: boolean;
 }
 
-const StatCard = ({ label, value, icon: Icon, change, description }: StatCardProps) => (
-  <div className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-purple-500/30 transition group">
+const StatCard = ({ label, value, icon: Icon, change, description, isLightTheme = false }: StatCardProps) => (
+  <div className={`p-6 rounded-2xl transition group ${
+    isLightTheme
+      ? "bg-white border border-slate-200 hover:border-purple-300"
+      : "bg-white/5 border border-white/10 hover:border-purple-500/30"
+  }`}>
     <div className="flex items-start justify-between mb-4">
       <Icon size={24} className="text-purple-400 group-hover:scale-110 transition" />
       {change && (
@@ -752,8 +781,8 @@ const StatCard = ({ label, value, icon: Icon, change, description }: StatCardPro
         </span>
       )}
     </div>
-    <p className="text-2xl font-bold text-white mb-1">{value}</p>
-    <p className="text-sm font-medium text-white/80">{label}</p>
+    <p className={`text-2xl font-bold mb-1 ${isLightTheme ? "text-slate-900" : "text-white"}`}>{value}</p>
+    <p className={`text-sm font-medium ${isLightTheme ? "text-slate-700" : "text-white/80"}`}>{label}</p>
     {description && <p className="text-xs text-slate-500 mt-2">{description}</p>}
   </div>
 );
@@ -764,18 +793,23 @@ interface InsightCardProps {
   desc: string;
   icon: React.ElementType;
   color: string;
+  isLightTheme?: boolean;
 }
 
-const InsightCard = ({ title, value, desc, icon: Icon, color }: InsightCardProps) => (
-  <div className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-purple-500/30 transition">
+const InsightCard = ({ title, value, desc, icon: Icon, color, isLightTheme = false }: InsightCardProps) => (
+  <div className={`p-6 rounded-2xl transition ${
+    isLightTheme
+      ? "bg-white border border-slate-200 hover:border-purple-300"
+      : "bg-white/5 border border-white/10 hover:border-purple-500/30"
+  }`}>
     <div className="flex items-center gap-3 mb-3">
       <div className={`p-2 rounded-lg bg-white/5 ${color}`}>
         <Icon size={20} />
       </div>
-      <h3 className="font-medium text-white">{title}</h3>
+      <h3 className={`font-medium ${isLightTheme ? "text-slate-900" : "text-white"}`}>{title}</h3>
     </div>
-    <p className="text-2xl font-bold text-white mb-1">{value}</p>
-    <p className="text-sm text-slate-400 leading-relaxed">{desc}</p>
+    <p className={`text-2xl font-bold mb-1 ${isLightTheme ? "text-slate-900" : "text-white"}`}>{value}</p>
+    <p className={`text-sm leading-relaxed ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>{desc}</p>
   </div>
 );
 
@@ -784,15 +818,20 @@ interface ActionCardProps {
   icon: React.ElementType;
   onClick: () => void;
   description: string;
+  isLightTheme?: boolean;
 }
 
-const ActionCard = ({ name, icon: Icon, onClick, description }: ActionCardProps) => (
+const ActionCard = ({ name, icon: Icon, onClick, description, isLightTheme = false }: ActionCardProps) => (
   <button
     onClick={onClick}
-    className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-purple-500/40 hover:bg-white/10 transition-all text-left group"
+    className={`p-6 rounded-2xl transition-all text-left group ${
+      isLightTheme
+        ? "bg-white border border-slate-200 hover:border-purple-400/50 hover:bg-slate-50"
+        : "bg-white/5 border border-white/10 hover:border-purple-500/40 hover:bg-white/10"
+    }`}
   >
     <Icon size={24} className="mb-3 text-purple-400 group-hover:scale-110 transition" />
-    <p className="font-semibold text-white mb-1">{name}</p>
+    <p className={`font-semibold mb-1 ${isLightTheme ? "text-slate-900" : "text-white"}`}>{name}</p>
     <p className="text-xs text-slate-500">{description}</p>
   </button>
 );

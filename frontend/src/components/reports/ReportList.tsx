@@ -4,6 +4,7 @@ import Layout from '../layout/Layout';
 import { FileText, Calendar, Clock, Target, Search, TrendingUp } from 'lucide-react';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { fetchReportsFromBackend } from '../../services/backendSupabase';
+import { useTheme } from '../../context/ThemeContext';
 
 interface Report {
   session_id: string;
@@ -19,6 +20,8 @@ interface Report {
 
 const ReportList: React.FC = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -119,7 +122,7 @@ const ReportList: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#020617] text-white pb-20 px-6 -mt-20">
+      <div className={`min-h-screen pb-20 px-6 -mt-20 ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-[#020617] text-white"}`}>
         {/* Animated Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -134,7 +137,7 @@ const ReportList: React.FC = () => {
                 Interview Reports
               </span>
             </h1>
-            <p className="text-xl text-slate-400 font-medium">
+            <p className={`text-xl font-medium ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
               Review your past interview performances and track your progress
             </p>
           </div>
@@ -142,7 +145,7 @@ const ReportList: React.FC = () => {
           {/* Search Bar */}
           <div className="mb-6 relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-cyan-500/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-            <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
+            <div className={`relative backdrop-blur-xl rounded-2xl p-4 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/40 border border-white/10"}`}>
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
@@ -150,7 +153,11 @@ const ReportList: React.FC = () => {
                   placeholder="Search by role, interview type, or session ID..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-sky-400/50 focus:ring-2 focus:ring-sky-400/20 transition-all"
+                  className={`w-full pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:border-sky-400/50 focus:ring-2 focus:ring-sky-400/20 transition-all ${
+                    isLightTheme
+                      ? "bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400"
+                      : "bg-slate-900/50 border border-white/10 text-white placeholder-gray-500"
+                  }`}
                 />
               </div>
             </div>
@@ -174,7 +181,11 @@ const ReportList: React.FC = () => {
                     className="relative group text-left"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                    <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-sky-400/50 transition-all duration-300 transform group-hover:scale-105">
+                    <div className={`relative backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 transform group-hover:scale-105 ${
+                      isLightTheme
+                        ? "bg-white border border-slate-200 hover:border-sky-400/50"
+                        : "bg-slate-800/40 border border-white/10 hover:border-sky-400/50"
+                    }`}>
                       {/* Header */}
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center space-x-3">
@@ -182,7 +193,7 @@ const ReportList: React.FC = () => {
                             <FileText className="w-5 h-5 text-white" />
                           </div>
                           <div>
-                            <h3 className="font-bold text-white text-lg">{report.role}</h3>
+                            <h3 className={`font-bold text-lg ${isLightTheme ? "text-slate-900" : "text-white"}`}>{report.role}</h3>
                             <p className="text-sm text-gray-400">{formatInterviewType(report.interview_type)}</p>
                           </div>
                         </div>
@@ -195,20 +206,20 @@ const ReportList: React.FC = () => {
                       <div className="space-y-2 mb-4">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-400">Technical</span>
-                          <span className="font-semibold text-white">{Math.round(report.technical_score)}%</span>
+                          <span className={`font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>{Math.round(report.technical_score)}%</span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-400">Communication</span>
-                          <span className="font-semibold text-white">{Math.round(report.communication_score)}%</span>
+                          <span className={`font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>{Math.round(report.communication_score)}%</span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-400">Confidence</span>
-                          <span className="font-semibold text-white">{Math.round(report.confidence_score)}%</span>
+                          <span className={`font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>{Math.round(report.confidence_score)}%</span>
                         </div>
                       </div>
 
                       {/* Metadata */}
-                      <div className="flex items-center justify-between text-xs text-gray-400 border-t border-white/10 pt-4">
+                      <div className={`flex items-center justify-between text-xs text-gray-400 pt-4 ${isLightTheme ? "border-t border-slate-200" : "border-t border-white/10"}`}>
                         <div className="flex items-center space-x-2">
                           <Calendar className="w-4 h-4" />
                           <span>{formatDate(report.created_at)}</span>
@@ -230,7 +241,7 @@ const ReportList: React.FC = () => {
               {reports.length > 0 && (
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-all duration-500"></div>
-                  <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                  <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/40 border border-white/10"}`}>
                     <h3 className="text-xl font-bold mb-6 flex items-center">
                       <TrendingUp className="w-5 h-5 mr-2 text-sky-300" />
                       Progress Overview
@@ -267,9 +278,9 @@ const ReportList: React.FC = () => {
             /* Empty State */
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-cyan-500/20 rounded-2xl blur-2xl opacity-50"></div>
-              <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
+              <div className={`relative backdrop-blur-xl rounded-2xl p-12 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/40 border border-white/10"}`}>
                 <FileText className="w-20 h-20 text-gray-400 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold text-white mb-3">
+                <h3 className={`text-2xl font-bold mb-3 ${isLightTheme ? "text-slate-900" : "text-white"}`}>
                   No reports found
                 </h3>
                 <p className="text-gray-400 mb-8 text-lg">

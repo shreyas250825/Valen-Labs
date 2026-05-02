@@ -27,6 +27,7 @@ import {
   type VolunteerItem,
 } from "./types";
 import { clampField } from "./utils/resumeLatexGenerator";
+import { useTheme } from "../../context/ThemeContext";
 
 function formatApiError(data: unknown): string {
   if (!data || typeof data !== "object") return "Request failed";
@@ -40,6 +41,8 @@ function formatApiError(data: unknown): string {
 
 export default function ResumeBuilder() {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
   const [state, setState] = useState<ResumeBuilderState>(() => initialResumeState());
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -246,14 +249,17 @@ export default function ResumeBuilder() {
   const Lb = LIMITS.basics;
   const Le = LIMITS.education;
   const Ls = LIMITS.skills;
+  const sectionSurfaceClass = isLightTheme
+    ? "rounded-2xl border border-slate-200 bg-white p-6 space-y-4"
+    : "rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4";
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 md:px-8 pt-2 md:pt-3 pb-24">
+    <div className={`min-h-screen px-4 md:px-8 pt-2 md:pt-3 pb-24 ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
         <div className="max-w-[1600px] mx-auto">
           <button
             type="button"
             onClick={() => navigate("/dashboard")}
-            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white mb-8 transition"
+            className={`inline-flex items-center gap-2 text-sm mb-8 transition ${isLightTheme ? "text-slate-600 hover:text-slate-900" : "text-slate-400 hover:text-white"}`}
           >
             <ArrowLeft className="h-4 w-4" />
             Back to dashboard
@@ -310,8 +316,8 @@ export default function ResumeBuilder() {
 
           <div className="grid lg:grid-cols-[1fr_minmax(320px,480px)] gap-8 items-start">
             <div className="space-y-10 pb-24">
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
-                <h2 className="text-lg font-semibold text-white">Basics</h2>
+              <section className={sectionSurfaceClass}>
+                <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Basics</h2>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <InputBox label="Name" value={state.basics.name} onChange={(v) => setBasics({ name: v })} maxLength={Lb.name} />
                   <InputBox label="Email" value={state.basics.email} onChange={(v) => setBasics({ email: v })} maxLength={Lb.email} />
@@ -328,8 +334,8 @@ export default function ResumeBuilder() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
-                <h2 className="text-lg font-semibold text-white">Education</h2>
+              <section className={sectionSurfaceClass}>
+                <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Education</h2>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <InputBox label="College" value={state.education.college} onChange={(v) => setEducation({ college: v })} maxLength={Le.college} />
                   <InputBox label="Location" value={state.education.location} onChange={(v) => setEducation({ location: v })} maxLength={Le.location} />
@@ -349,8 +355,8 @@ export default function ResumeBuilder() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
-                <h2 className="text-lg font-semibold text-white">Skills</h2>
+              <section className={sectionSurfaceClass}>
+                <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Skills</h2>
                 <InputBox label="Languages" value={state.skills.languages} onChange={(v) => setSkills({ languages: v })} maxLength={Ls.languages} />
                 <InputBox label="Frameworks" value={state.skills.frameworks} onChange={(v) => setSkills({ frameworks: v })} maxLength={Ls.frameworks} />
                 <InputBox label="Tools" value={state.skills.tools} onChange={(v) => setSkills({ tools: v })} maxLength={Ls.tools} />
@@ -365,9 +371,9 @@ export default function ResumeBuilder() {
                 />
               </section>
 
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
+              <section className={sectionSurfaceClass}>
                 <div className="flex items-center justify-between gap-4">
-                  <h2 className="text-lg font-semibold text-white">Experience</h2>
+                  <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Experience</h2>
                   <button
                     type="button"
                     onClick={addExperience}
@@ -391,9 +397,9 @@ export default function ResumeBuilder() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
+              <section className={sectionSurfaceClass}>
                 <div className="flex items-center justify-between gap-4">
-                  <h2 className="text-lg font-semibold text-white">Projects</h2>
+                  <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Projects</h2>
                   <button
                     type="button"
                     onClick={addProject}
@@ -417,9 +423,9 @@ export default function ResumeBuilder() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
+              <section className={sectionSurfaceClass}>
                 <div className="flex items-center justify-between gap-4">
-                  <h2 className="text-lg font-semibold text-white">Achievements</h2>
+                  <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Achievements</h2>
                   <button
                     type="button"
                     onClick={addAchievement}
@@ -456,9 +462,9 @@ export default function ResumeBuilder() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 space-y-4">
+              <section className={sectionSurfaceClass}>
                 <div className="flex items-center justify-between gap-4">
-                  <h2 className="text-lg font-semibold text-white">Volunteer</h2>
+                  <h2 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Volunteer</h2>
                   <button
                     type="button"
                     onClick={addVolunteer}

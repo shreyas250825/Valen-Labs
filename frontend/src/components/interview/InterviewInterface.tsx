@@ -9,9 +9,12 @@ import HumanAvatar from './HumanAvatar';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { getReportSimple, startInterviewSimple, submitAnswerSimple } from '../../services/api';
 import { getSupabaseSessionIdForExternalSession, logInterviewQuestionToBackend } from '../../services/backendSupabase';
+import { useTheme } from '../../context/ThemeContext';
 
 const InterviewInterface: React.FC = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
 
   // Interview state
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -439,21 +442,21 @@ const InterviewInterface: React.FC = () => {
 
   if (isLoading && interviewStage === 'not-started') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900">
+      <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100" : "bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900"}`}>
         <LoadingSpinner size="lg" text="Starting your interview..." />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white">
+    <div className={`min-h-screen ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900" : "bg-[#020617] text-white"}`}>
       {/* End Test Confirmation Dialog */}
       {showEndTestConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="mx-4 max-w-md rounded-2xl border border-white/10 bg-slate-900/95 backdrop-blur-xl p-6">
+          <div className={`mx-4 max-w-md rounded-2xl backdrop-blur-xl p-6 ${isLightTheme ? "border border-slate-200 bg-white/95" : "border border-white/10 bg-slate-900/95"}`}>
             <div className="mb-4 text-center">
               <StopCircle className="mx-auto mb-3 h-12 w-12 text-orange-400" />
-              <h3 className="text-lg font-semibold text-white">End Interview Early?</h3>
+              <h3 className={`text-lg font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>End Interview Early?</h3>
               <p className="mt-2 text-sm text-gray-400">
                 You've answered {currentQuestionIndex + (interviewStage === 'answering' && transcript.trim() ? 1 : 0)} question(s) so far. 
                 Your evaluation will be based on the questions you've completed.
@@ -500,7 +503,7 @@ const InterviewInterface: React.FC = () => {
         {/* Main 2-column layout – equal ratio, full height */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 items-stretch">
           {/* LEFT: Interviewer avatar + question */}
-          <div className="flex h-full flex-col rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl p-6 md:p-8">
+          <div className={`flex h-full flex-col rounded-[32px] backdrop-blur-3xl p-6 md:p-8 ${isLightTheme ? "border border-slate-200 bg-white" : "border border-white/10 bg-white/[0.03]"}`}>
             {/* Top: avatar centered */}
             <div className="flex-1 flex items-center justify-center">
               <HumanAvatar
@@ -541,10 +544,10 @@ const InterviewInterface: React.FC = () => {
           </div>
 
           {/* RIGHT: User video + transcript + camera button */}
-          <div className="flex h-full flex-col rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl p-6 md:p-7">
+          <div className={`flex h-full flex-col rounded-[32px] backdrop-blur-3xl p-6 md:p-7 ${isLightTheme ? "border border-slate-200 bg-white" : "border border-white/10 bg-white/[0.03]"}`}>
             {/* Header row */}
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h3 className="text-lg md:text-xl font-semibold text-white">Your Video</h3>
+              <h3 className={`text-lg md:text-xl font-semibold ${isLightTheme ? "text-slate-900" : "text-white"}`}>Your Video</h3>
               <div className="flex items-center gap-2 text-xs md:text-sm">
                 {isMediaEnabled || webcamActive ? (
                   <Video className="h-4 w-4 text-emerald-400" />
@@ -634,7 +637,7 @@ const InterviewInterface: React.FC = () => {
         </div>
 
         {/* Bottom controls row – full width, no overlap */}
-        <div className="rounded-3xl border border-white/10 bg-slate-900/60 backdrop-blur-xl px-4 py-4 md:px-6 md:py-5">
+        <div className={`rounded-3xl backdrop-blur-xl px-4 py-4 md:px-6 md:py-5 ${isLightTheme ? "border border-slate-200 bg-white" : "border border-white/10 bg-slate-900/60"}`}>
           {interviewStage === 'question' && (
             <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
               <p className="text-center text-xs md:text-sm text-gray-300 max-w-xl">

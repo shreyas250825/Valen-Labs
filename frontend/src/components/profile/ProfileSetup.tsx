@@ -4,10 +4,13 @@ import ResumeUpload from './ResumeUpload';
 import ManualSetup from './ManualSetup';
 import InterviewConfig from './InterviewConfig';
 import { Upload, Settings, FileText, User, Sparkles } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const ProfileSetup: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
   
   // Get parsedData from location state or localStorage
   const parsedDataFromState = (location.state as any)?.parsedData;
@@ -47,7 +50,7 @@ const ProfileSetup: React.FC = () => {
   }, [location.state, location.pathname]);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white py-20 px-6">
+    <div className={`min-h-screen py-20 px-6 ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-[#020617] text-white"}`}>
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -65,7 +68,7 @@ const ProfileSetup: React.FC = () => {
               Setup Your Interview
             </span>
           </h1>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium">
+          <p className={`text-xl max-w-2xl mx-auto font-medium ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
             Choose how you'd like to set up your interview profile
           </p>
         </div>
@@ -105,12 +108,12 @@ const ProfileSetup: React.FC = () => {
               className="relative group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-sky-400/30 to-cyan-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-              <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-3xl p-10 transform group-hover:scale-105 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer">
+              <div className={`relative backdrop-blur-xl rounded-3xl p-10 transform group-hover:scale-105 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/40 border border-white/10"}`}>
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-sky-400 to-cyan-500 rounded-2xl mb-6 transform group-hover:rotate-6 transition-transform duration-300">
                   <FileText className="w-10 h-10 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold mb-4 text-white">Upload Resume</h2>
-                <p className="text-gray-400 mb-6 leading-relaxed">
+                <h2 className={`text-3xl font-bold mb-4 ${isLightTheme ? "text-slate-900" : "text-white"}`}>Upload Resume</h2>
+                <p className={`mb-6 leading-relaxed ${isLightTheme ? "text-slate-600" : "text-gray-400"}`}>
                   Let our AI automatically extract your skills, experience, and background from your resume to personalize your interview experience.
                 </p>
                 <div className="flex items-center space-x-2 text-sky-400 font-semibold group-hover:text-sky-300 transition-colors">
@@ -129,12 +132,12 @@ const ProfileSetup: React.FC = () => {
               className="relative group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400/30 to-pink-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-              <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-3xl p-10 transform group-hover:scale-105 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer">
+              <div className={`relative backdrop-blur-xl rounded-3xl p-10 transform group-hover:scale-105 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/40 border border-white/10"}`}>
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl mb-6 transform group-hover:rotate-6 transition-transform duration-300">
                   <User className="w-10 h-10 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold mb-4 text-white">Manual Setup</h2>
-                <p className="text-gray-400 mb-6 leading-relaxed">
+                <h2 className={`text-3xl font-bold mb-4 ${isLightTheme ? "text-slate-900" : "text-white"}`}>Manual Setup</h2>
+                <p className={`mb-6 leading-relaxed ${isLightTheme ? "text-slate-600" : "text-gray-400"}`}>
                   Manually configure your interview settings by selecting your target role, interview type, and round preferences.
                 </p>
                 <div className="flex items-center space-x-2 text-purple-400 font-semibold group-hover:text-purple-300 transition-colors">

@@ -10,9 +10,12 @@ import {
   ChevronRight, PlayCircle
 } from 'lucide-react';
 import { LineChart, Line, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useTheme } from '../../context/ThemeContext';
 
 const Report = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
   const [searchParams] = useSearchParams();
   const [reportData, setReportData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -396,7 +399,7 @@ const Report = () => {
   if (error && !reportData && !loading) {
     return (
       <Layout>
-        <div className="min-h-screen bg-[#020617] text-white">
+        <div className={`min-h-screen ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-[#020617] text-white"}`}>
           {/* Animated Background */}
           <div className="fixed inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -407,10 +410,10 @@ const Report = () => {
             <div className="max-w-md w-full">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 to-orange-500/20 rounded-2xl blur-2xl opacity-50"></div>
-                <div className="relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
+                <div className={`relative backdrop-blur-xl rounded-2xl p-8 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/40 border border-white/10"}`}>
                   <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-6" />
                   
-                  <h2 className="text-2xl font-bold text-white mb-3">Report Not Found</h2>
+                  <h2 className={`text-2xl font-bold mb-3 ${isLightTheme ? "text-slate-900" : "text-white"}`}>Report Not Found</h2>
                   
                   <p className="text-gray-400 mb-6 leading-relaxed">
                     {error.includes('session ID') 
@@ -490,7 +493,7 @@ const Report = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white">
+        <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white"}`}>
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-400 mx-auto mb-4"></div>
             <p>Loading report...</p>
@@ -502,7 +505,7 @@ const Report = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#020617] text-white">
+      <div className={`min-h-screen ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-[#020617] text-white"}`}>
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -510,18 +513,18 @@ const Report = () => {
       </div>
 
       {/* Header */}
-      <div className="relative border-b border-white/10 backdrop-blur-3xl bg-white/[0.03]">
+      <div className={`relative border-b backdrop-blur-3xl ${isLightTheme ? "border-slate-200 bg-white" : "border-white/10 bg-white/[0.03]"}`}>
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button 
                 onClick={() => navigate('/dashboard')}
-                className="p-2 hover:bg-white/10 rounded-2xl transition-all duration-300"
+                className={`p-2 rounded-2xl transition-all duration-300 ${isLightTheme ? "hover:bg-slate-100" : "hover:bg-white/10"}`}
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
-                <h1 className="text-2xl font-black tracking-tighter uppercase bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Interview Performance Report</h1>
+                <h1 className={`text-2xl font-black tracking-tighter uppercase ${isLightTheme ? "text-slate-900" : "bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent"}`}>Interview Performance Report</h1>
                 {interviewData && (
                 <p className="text-sm text-slate-400 mt-1 font-medium">
                   {interviewData.type} • {interviewData.role} • {interviewData.date}
@@ -543,7 +546,7 @@ const Report = () => {
                     alert('Report link copied to clipboard!');
                   }
                 }}
-                className="flex items-center space-x-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all duration-300"
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${isLightTheme ? "bg-white border border-slate-200 hover:bg-slate-100" : "bg-white/5 border border-white/10 hover:bg-white/10"}`}
               >
                 <Share2 className="w-4 h-4" />
                 <span className="hidden sm:inline">Share</span>
@@ -580,7 +583,7 @@ const Report = () => {
           {/* Overall Score */}
           <div className="lg:col-span-1 relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-sky-400/30 to-cyan-500/30 rounded-3xl blur-2xl opacity-50 group-hover:opacity-75 transition-all duration-500"></div>
-            <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center">
+            <div className={`relative backdrop-blur-xl rounded-3xl p-8 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
               <Trophy className="w-12 h-12 mx-auto mb-4 text-sky-300" />
               <div className="text-6xl font-bold mb-2 bg-gradient-to-r from-sky-300 to-cyan-400 bg-clip-text text-transparent">
                 {interviewData?.overallScore || 0}
@@ -605,7 +608,7 @@ const Report = () => {
             ].filter(Boolean).map((stat, index) => (
               <div key={index} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-r ${stat.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-all duration-500`}></div>
-                <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                   <div className={`inline-flex p-3 bg-gradient-to-r ${stat.gradient} rounded-xl mb-3`}>
                     <stat.icon className="w-5 h-5 text-white" />
                   </div>
@@ -621,7 +624,7 @@ const Report = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-cyan-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-all duration-500"></div>
-            <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
               <h3 className="text-xl font-bold mb-6 flex items-center">
                 <Target className="w-5 h-5 mr-2 text-sky-300" />
                 Performance Breakdown
@@ -662,7 +665,7 @@ const Report = () => {
 
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-all duration-500"></div>
-            <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
               <h3 className="text-xl font-bold mb-6 flex items-center">
                 <PieChart className="w-5 h-5 mr-2 text-sky-300" />
                 Response Quality Distribution
@@ -706,7 +709,7 @@ const Report = () => {
         {/* Speech Analysis Timeline */}
         <div className="relative group mb-8">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-all duration-500"></div>
-          <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+          <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
             <h3 className="text-xl font-bold mb-6 flex items-center">
               <Activity className="w-5 h-5 mr-2 text-sky-300" />
               Speech Analysis Over Time
@@ -748,7 +751,7 @@ const Report = () => {
             {insights.length > 0 ? insights.map((insight, index) => (
               <div key={index} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-r ${insight.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-all duration-500`}></div>
-                <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                   <div className="flex items-start space-x-4">
                     <div className={`p-3 bg-gradient-to-r ${insight.gradient} rounded-xl flex-shrink-0`}>
                       <insight.icon className="w-6 h-6 text-white" />
@@ -787,7 +790,7 @@ const Report = () => {
             {questions.length > 0 ? questions.map((q: any, index: number) => (
               <div key={q.id} className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-sky-400/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
@@ -887,7 +890,7 @@ const Report = () => {
             {recommendations.length > 0 ? recommendations.map((rec, index) => (
               <div key={index} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-r ${getPriorityColor(rec.priority)} rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-all duration-500`}></div>
-                <div className="relative bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className={`relative backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">

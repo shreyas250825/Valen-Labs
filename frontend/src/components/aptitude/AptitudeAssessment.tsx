@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Clock, CheckCircle, XCircle, ArrowRight, RotateCcw, Target, PlayCircle, Brain, Timer, Award, StopCircle } from 'lucide-react';
 import Layout from '../layout/Layout';
 import { logAptitudeResultToBackend } from '../../services/backendSupabase';
+import { useTheme } from '../../context/ThemeContext';
 
 interface AptitudeQuestion {
   id: string;
@@ -25,6 +26,8 @@ type AssessmentState = 'start' | 'assessment' | 'completed';
 
 const AptitudeAssessment: React.FC = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  const isLightTheme = theme === "light";
   const TOTAL_QUESTIONS = 15;
   const TOTAL_TIME_SECONDS = 15 * 60; // 15 minutes
   const [assessmentState, setAssessmentState] = useState<AssessmentState>('start');
@@ -1222,7 +1225,7 @@ const AptitudeAssessment: React.FC = () => {
   if (isLoading && assessmentState === 'assessment') {
     return (
       <Layout>
-        <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 flex items-center justify-center">
+        <div className={`min-h-[calc(100vh-88px)] flex items-center justify-center ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900" : "bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white"}`}>
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-white text-lg">Loading Quick Assessment...</p>
@@ -1237,7 +1240,7 @@ const AptitudeAssessment: React.FC = () => {
   if (assessmentState === 'start') {
     return (
       <Layout>
-        <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white">
+        <div className={`min-h-[calc(100vh-88px)] ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900" : "bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white"}`}>
           {/* Animated Background */}
           <div className="fixed inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -1260,7 +1263,7 @@ const AptitudeAssessment: React.FC = () => {
 
             {/* Assessment Info */}
             <div className="grid md:grid-cols-3 gap-6 mb-10">
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 text-center">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Timer className="w-8 h-8 text-purple-400" />
                 </div>
@@ -1268,7 +1271,7 @@ const AptitudeAssessment: React.FC = () => {
                 <p className="text-gray-400 text-sm">Time limit for completion</p>
               </div>
               
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 text-center">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <div className="w-16 h-16 bg-sky-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Target className="w-8 h-8 text-sky-400" />
                 </div>
@@ -1276,7 +1279,7 @@ const AptitudeAssessment: React.FC = () => {
                 <p className="text-gray-400 text-sm">From 110+ question bank</p>
               </div>
               
-              <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-6 text-center">
+              <div className={`backdrop-blur-3xl rounded-[32px] p-6 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
                 <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Award className="w-8 h-8 text-emerald-400" />
                 </div>
@@ -1286,7 +1289,7 @@ const AptitudeAssessment: React.FC = () => {
             </div>
 
             {/* Question Types */}
-            <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-8 mb-12">
+            <div className={`backdrop-blur-3xl rounded-[32px] p-8 mb-12 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
               <h3 className="text-2xl font-black tracking-tighter uppercase mb-6 text-center">Assessment Areas</h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
@@ -1305,7 +1308,7 @@ const AptitudeAssessment: React.FC = () => {
             </div>
 
             {/* Instructions */}
-            <div className="bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[32px] p-8 mb-12">
+            <div className={`backdrop-blur-3xl rounded-[32px] p-8 mb-12 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
               <h3 className="text-xl font-black tracking-tighter uppercase mb-4">Instructions</h3>
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start gap-3">
@@ -1371,7 +1374,7 @@ const AptitudeAssessment: React.FC = () => {
 
     return (
       <Layout>
-        <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white">
+        <div className={`min-h-[calc(100vh-88px)] ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900" : "bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white"}`}>
           <div className="max-w-5xl mx-auto px-5 sm:px-6 pt-3 pb-10">
             {/* Results Header */}
             <div className="text-center mb-8">
@@ -1384,19 +1387,19 @@ const AptitudeAssessment: React.FC = () => {
 
             {/* Score Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
+              <div className={`backdrop-blur-xl rounded-2xl p-6 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                 <div className={`text-4xl font-bold mb-2 ${getScoreColor(overallScore)}`}>
                   {overallScore}%
                 </div>
                 <div className="text-gray-400">Overall Score</div>
               </div>
-              <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
+              <div className={`backdrop-blur-xl rounded-2xl p-6 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                 <div className="text-4xl font-bold mb-2 text-emerald-400">
                   {correctAnswers}/{questions.length}
                 </div>
                 <div className="text-gray-400">Correct Answers</div>
               </div>
-              <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
+              <div className={`backdrop-blur-xl rounded-2xl p-6 text-center ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                 <div className="text-4xl font-bold mb-2 text-sky-400">
                   {formatTime(TOTAL_TIME_SECONDS - timeRemaining)}
                 </div>
@@ -1405,7 +1408,7 @@ const AptitudeAssessment: React.FC = () => {
             </div>
 
             {/* Detailed Results */}
-            <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-8">
+            <div className={`backdrop-blur-xl rounded-2xl p-6 mb-8 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
               <h3 className="text-xl font-bold mb-4">Question Results</h3>
               <div className="space-y-4">
                 {results.map((result, index) => {
@@ -1456,7 +1459,7 @@ const AptitudeAssessment: React.FC = () => {
 
             {/* Performance Analysis */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+              <div className={`backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                 <h3 className="text-lg font-bold mb-4 text-emerald-400">Strength Areas</h3>
                 {strengthAreas.length > 0 ? (
                   <div className="space-y-2">
@@ -1471,7 +1474,7 @@ const AptitudeAssessment: React.FC = () => {
                   <p className="text-gray-400">Focus on improving all areas</p>
                 )}
               </div>
-              <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+              <div className={`backdrop-blur-xl rounded-2xl p-6 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
                 <h3 className="text-lg font-bold mb-4 text-yellow-400">Improvement Areas</h3>
                 {improvementAreas.length > 0 ? (
                   <div className="space-y-2">
@@ -1524,7 +1527,7 @@ const AptitudeAssessment: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-88px)] bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white">
+      <div className={`min-h-[calc(100vh-88px)] ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900" : "bg-gradient-to-br from-slate-950 via-[#020617] to-slate-900 text-white"}`}>
         {/* End Test Confirmation Dialog */}
         {showEndTestConfirm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -1603,7 +1606,7 @@ const AptitudeAssessment: React.FC = () => {
           </div>
 
           {/* Question Card */}
-          <div className="bg-slate-800/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-8">
+          <div className={`backdrop-blur-xl rounded-2xl p-8 mb-8 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
             <div className="flex items-center gap-3 mb-6">
               <span className="text-2xl">{getQuestionTypeIcon(currentQuestion?.type)}</span>
               <div>

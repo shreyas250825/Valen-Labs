@@ -76,13 +76,13 @@ const Navbar = () => {
     <>
       {/* NAVBAR */}
       <header
-        className={`fixed top-0 left-0 w-full z-50 backdrop-blur-2xl border-b transition-colors ${
+        className={`fixed top-0 left-0 w-full z-50 h-[88px] backdrop-blur-xl border-b transition-colors ${
           isLightTheme
             ? "bg-white/85 border-slate-200 text-slate-900"
             : "bg-black/80 border-white/10 text-white"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
 
           {/* 🔹 BRAND */}
           <div
@@ -92,17 +92,17 @@ const Navbar = () => {
             <img
               src="/assets/Valen Labs Logo.png"
               alt="Valen Labs"
-              className="h-14 w-auto object-contain opacity-95 group-hover:opacity-100 transition"
+              className="h-12 w-auto object-contain opacity-95 group-hover:opacity-100 transition"
             />
           </div>
 
           {/* 🔹 NAV LINKS */}
-          <div className="hidden md:flex items-center gap-8 text-sm">
+          <div className="hidden md:flex items-center gap-2 text-sm">
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => navigate(link.href)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl transition-colors ${
                   isActive(link.href)
                     ? isLightTheme
                       ? "text-slate-900 bg-slate-100 border border-slate-200"
@@ -205,7 +205,7 @@ const Navbar = () => {
       {/* 🔹 MOBILE MENU */}
       {mobileMenuOpen && (
         <div
-          className={`fixed top-[80px] left-0 w-full z-40 px-6 py-6 space-y-4 md:hidden border-t ${
+          className={`fixed top-[88px] left-0 w-full z-40 px-6 py-6 space-y-4 md:hidden border-t ${
             isLightTheme
               ? "bg-white border-slate-200 text-slate-900"
               : "bg-black border-white/10 text-white"
@@ -273,7 +273,7 @@ const Navbar = () => {
       )}
 
       {/* SPACER */}
-      <div className="h-[80px]" />
+      <div className="h-[88px]" />
     </>
   );
 };

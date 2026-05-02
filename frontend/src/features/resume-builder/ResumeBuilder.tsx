@@ -248,7 +248,7 @@ export default function ResumeBuilder() {
   const Ls = LIMITS.skills;
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 md:px-8 py-24">
+    <div className="min-h-screen bg-black text-white px-4 md:px-8 pt-2 md:pt-3 pb-24">
         <div className="max-w-[1600px] mx-auto">
           <button
             type="button"

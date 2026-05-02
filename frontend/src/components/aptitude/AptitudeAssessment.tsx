@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, CheckCircle, XCircle, ArrowRight, RotateCcw, Target, PlayCircle, Brain, Timer, Award, StopCircle } from 'lucide-react';
+import { Clock, CheckCircle, XCircle, ArrowRight, ArrowLeft, RotateCcw, Target, PlayCircle, Brain, Timer, Award, StopCircle } from 'lucide-react';
 import Layout from '../layout/Layout';
 import { logAptitudeResultToBackend } from '../../services/backendSupabase';
 import { useTheme } from '../../context/ThemeContext';
@@ -40,6 +40,7 @@ const AptitudeAssessment: React.FC = () => {
   const [results, setResults] = useState<AptitudeResult[]>([]);
   const [overallScore, setOverallScore] = useState(0);
   const [showEndTestConfirm, setShowEndTestConfirm] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   // Comprehensive question bank with 110 real interview questions
   const allQuestions: AptitudeQuestion[] = [
@@ -1206,14 +1207,9 @@ const AptitudeAssessment: React.FC = () => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const getQuestionTypeIcon = (type: string) => {
-    switch (type) {
-      case 'quantitative': return '🔢';
-      case 'logical': return '🧠';
-      case 'pattern': return '🔄';
-      case 'analytical': return '📊';
-      default: return '❓';
-    }
+  const formatQuestionType = (type: string) => {
+    if (!type) return 'Question';
+    return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
   };
 
   const getScoreColor = (score: number) => {
@@ -1228,8 +1224,8 @@ const AptitudeAssessment: React.FC = () => {
         <div className={`min-h-[calc(100vh-88px)] flex items-center justify-center ${isLightTheme ? "bg-gradient-to-br from-slate-100 via-white to-slate-100 text-slate-900" : "bg-gradient-to-br from-slate-950 via-sky-950 to-slate-900 text-white"}`}>
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-sky-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-white text-lg">Loading Quick Assessment...</p>
-            <p className="text-gray-400 text-sm mt-2">Selecting 15 questions from 110+ question bank</p>
+            <p className={`text-lg ${isLightTheme ? "text-slate-900" : "text-white"}`}>Loading Quick Assessment...</p>
+            <p className={`text-sm mt-2 ${isLightTheme ? "text-slate-600" : "text-gray-400"}`}>Selecting 15 questions from 110+ question bank</p>
           </div>
         </div>
       </Layout>
@@ -1288,50 +1284,78 @@ const AptitudeAssessment: React.FC = () => {
               </div>
             </div>
 
-            {/* Question Types */}
-            <div className={`backdrop-blur-3xl rounded-[32px] p-8 mb-12 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
-              <h3 className="text-2xl font-black tracking-tighter uppercase mb-6 text-center">Assessment Areas</h3>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                  { type: 'Quantitative', icon: '🔢', desc: 'Math, percentages, ratios' },
-                  { type: 'Logical', icon: '🧠', desc: 'Reasoning, deduction' },
-                  { type: 'Analytical', icon: '📊', desc: 'Problem analysis' },
-                  { type: 'Pattern', icon: '🔄', desc: 'Sequences, patterns' }
-                ].map((area, index) => (
-                  <div key={index} className="text-center p-4">
-                    <div className="text-3xl mb-3">{area.icon}</div>
-                    <h4 className="font-bold text-white mb-2">{area.type}</h4>
-                    <p className="text-xs text-gray-400">{area.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Instructions Option */}
+            <div className={`backdrop-blur-3xl rounded-[32px] p-6 mb-12 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
+              <button
+                type="button"
+                onClick={() => setShowInstructions((prev) => !prev)}
+                className={`w-full flex items-center justify-between rounded-2xl px-4 py-3 text-left transition ${
+                  isLightTheme
+                    ? "bg-slate-100 hover:bg-slate-200 text-slate-900"
+                    : "bg-slate-800/50 hover:bg-slate-800/70 text-white"
+                }`}
+              >
+                <span className="text-base md:text-lg font-black tracking-tighter uppercase">Instructions</span>
+                <span className={`text-sm font-semibold ${isLightTheme ? "text-slate-600" : "text-slate-300"}`}>
+                  {showInstructions ? "Hide" : "Show"}
+                </span>
+              </button>
 
-            {/* Instructions */}
-            <div className={`backdrop-blur-3xl rounded-[32px] p-8 mb-12 ${isLightTheme ? "bg-white border border-slate-200" : "bg-white/[0.03] border border-white/10"}`}>
-              <h3 className="text-xl font-black tracking-tighter uppercase mb-4">Instructions</h3>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
-                  <span>You have 15 minutes to complete 15 questions</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
-                  <span>Each question has 4 multiple choice options</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
-                  <span>You can navigate between questions and change answers</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
-                  <span>Questions are selected from easy, medium, and hard difficulty levels</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
-                  <span>Your results will be saved and available in your dashboard</span>
-                </li>
-              </ul>
+              {showInstructions && (
+                <div className="mt-6 space-y-8">
+                  <div>
+                    <h3 className={`text-xl font-black tracking-tighter uppercase mb-4 ${isLightTheme ? "text-slate-900" : "text-white"}`}>
+                      Assessment Areas
+                    </h3>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {[
+                        { type: 'Quantitative', desc: 'Math, percentages, ratios' },
+                        { type: 'Logical', desc: 'Reasoning, deduction' },
+                        { type: 'Analytical', desc: 'Problem analysis' },
+                        { type: 'Pattern', desc: 'Sequences, patterns' }
+                      ].map((area, index) => (
+                        <div
+                          key={index}
+                          className={`rounded-2xl p-4 text-left ${
+                            isLightTheme ? "bg-slate-100 border border-slate-200" : "bg-slate-800/40 border border-white/10"
+                          }`}
+                        >
+                          <h4 className={`font-bold mb-1 ${isLightTheme ? "text-slate-900" : "text-white"}`}>{area.type}</h4>
+                          <p className={`text-xs ${isLightTheme ? "text-slate-600" : "text-gray-400"}`}>{area.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className={`text-xl font-black tracking-tighter uppercase mb-4 ${isLightTheme ? "text-slate-900" : "text-white"}`}>
+                      Instructions
+                    </h3>
+                    <ul className={`space-y-3 ${isLightTheme ? "text-slate-700" : "text-gray-300"}`}>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                        <span>You have 15 minutes to complete 15 questions</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                        <span>Each question has 4 multiple choice options</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                        <span>You can navigate between questions and change answers</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                        <span>Questions are selected from easy, medium, and hard difficulty levels</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                        <span>Your results will be saved and available in your dashboard</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Start Button */}
@@ -1348,10 +1372,14 @@ const AptitudeAssessment: React.FC = () => {
               
               <div className="mt-6">
                 <button
+                  type="button"
                   onClick={() => navigate('/dashboard')}
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                  className={`inline-flex items-center gap-2 text-sm transition-colors ${
+                    isLightTheme ? "text-slate-600 hover:text-slate-900" : "text-gray-400 hover:text-white"
+                  }`}
                 >
-                  ← Back to Dashboard
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Dashboard
                 </button>
               </div>
             </div>
@@ -1418,8 +1446,7 @@ const AptitudeAssessment: React.FC = () => {
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="text-lg">{getQuestionTypeIcon(question?.type || '')}</span>
-                            <span className="text-sm text-sky-300 capitalize">{question?.type}</span>
+                            <span className="text-sm text-sky-300 font-medium">{formatQuestionType(question?.type || '')}</span>
                             <span className="text-sm text-gray-400">Question {index + 1}</span>
                             <span className="text-xs px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full">
                               {question?.difficulty}
@@ -1607,13 +1634,10 @@ const AptitudeAssessment: React.FC = () => {
 
           {/* Question Card */}
           <div className={`backdrop-blur-xl rounded-2xl p-8 mb-8 ${isLightTheme ? "bg-white border border-slate-200" : "bg-slate-800/30 border border-white/10"}`}>
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-2xl">{getQuestionTypeIcon(currentQuestion?.type)}</span>
-              <div>
-                <span className="text-sky-300 text-sm capitalize font-medium">
-                  {currentQuestion?.type} • {currentQuestion?.difficulty}
-                </span>
-              </div>
+            <div className="mb-6">
+              <span className={`text-sm font-medium ${isLightTheme ? "text-sky-700" : "text-sky-300"}`}>
+                {formatQuestionType(currentQuestion?.type || '')} · {currentQuestion?.difficulty}
+              </span>
             </div>
             
             <h2 className="text-xl font-semibold mb-8 leading-relaxed">

@@ -16,10 +16,10 @@ const LandingPage: React.FC = () => {
   const isLightTheme = theme === "light";
 
   return (
-    <div className={`overflow-x-hidden transition-colors ${isLightTheme ? "bg-transparent text-slate-900" : "bg-black text-white"}`}>
+    <div className={`overflow-x-hidden transition-colors bg-transparent text-inherit`}>
       
       {/* HERO */}
-      <section className="h-screen flex flex-col items-center justify-center text-center px-6 relative">
+      <section className="min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center px-6 relative">
         
         <div className={`absolute w-[500px] h-[500px] blur-[140px] rounded-full -z-10 animate-pulse ${isLightTheme ? "bg-purple-500/10" : "bg-purple-600/10"}`} />
 

@@ -423,7 +423,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <Layout>
-        <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
+        <div className={`min-h-[calc(100vh-88px)] flex items-center justify-center ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className={isLightTheme ? "text-slate-600" : "text-slate-400"}>Loading your dashboard...</p>
@@ -435,7 +435,7 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className={`min-h-screen px-4 md:px-6 py-24 overflow-x-hidden ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
+      <div className={`min-h-0 -mt-5 px-4 md:px-6 pt-0 pb-12 md:pt-0 md:pb-16 overflow-x-hidden ${isLightTheme ? "bg-slate-50 text-slate-900" : "bg-black text-white"}`}>
         {/* Header Section */}
         <div className="max-w-7xl mx-auto mb-16">
           <div className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-medium uppercase tracking-wider mb-4">

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Mic,
-  BarChart3,
   Home,
   Menu,
   Moon,
@@ -54,15 +53,18 @@ const Navbar = () => {
   }, []);
 
   const isActive = (path: string) => {
-    if (path === "/") return location.pathname === "/";
-    if (path === "/dashboard") return location.pathname === "/dashboard";
+    if (path === "/dashboard") {
+      return (
+        location.pathname === "/dashboard" ||
+        location.pathname.startsWith("/dashboard/")
+      );
+    }
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
   const navLinks = [
-    { label: "Home", href: "/", icon: Home },
+    { label: "Home", href: "/dashboard", icon: Home },
     { label: "Interview", href: "/setup", icon: Mic },
-    { label: "Dashboard", href: "/dashboard", icon: BarChart3 },
     { label: "Aptitude", href: "/aptitude", icon: Brain },
     { label: "Job Fit", href: "/job-fit", icon: Target },
     { label: "Resume", href: "/dashboard/resume-builder", icon: FileText }

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, Mail, Target, User } from "lucide-react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { firebaseAuth } from "../../lib/firebase";
+import { SITE_URL } from "../../utils/constants";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -150,9 +151,17 @@ export default function SignUpPage() {
           </div>
         </form>
 
-        <p className="text-center text-xs text-slate-600 uppercase font-black tracking-widest mt-8">
-          Secured by Firebase Auth
-        </p>
+        <div className="text-center mt-8 space-y-2">
+          <p className="text-xs text-slate-600 uppercase font-black tracking-widest">Secured by Firebase Auth</p>
+          <a
+            href={SITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+          >
+            valen.live
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Globe, Linkedin, Mail } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import { Link } from "react-router-dom";
+import { SITE_URL } from "../../utils/constants";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -21,9 +22,17 @@ const Footer = () => {
             </h2>
 
             <p className={`text-sm leading-relaxed max-w-sm ${isLightTheme ? "text-slate-600" : "text-slate-400"}`}>
-              Built by Valen Labs, Valen AI is a next-generation platform designed 
-              to simulate interviews, analyze performance, and guide users toward 
-              real industry readiness.
+              Built by{" "}
+              <a
+                href={SITE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={isLightTheme ? "text-purple-600 hover:text-purple-700" : "text-purple-400 hover:text-purple-300"}
+              >
+                Valen Labs
+              </a>
+              , Valen AI is a next-generation platform designed to simulate interviews, analyze performance, and guide
+              users toward real industry readiness.
             </p>
           </div>
 
@@ -53,11 +62,29 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className={`text-sm ${isLightTheme ? "text-slate-500" : "text-slate-500"}`}>
-            © {currentYear} Valen Labs. All rights reserved.
+            © {currentYear}{" "}
+            <a
+              href={SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={isLightTheme ? "hover:text-slate-800" : "hover:text-slate-300"}
+            >
+              Valen Labs
+            </a>
+            . All rights reserved.
           </p>
 
           {/* Socials */}
           <div className="flex items-center gap-4">
+            <a
+              href={SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`transition ${isLightTheme ? "text-slate-500 hover:text-slate-900" : "text-slate-400 hover:text-white"}`}
+              aria-label="Valen Labs website"
+            >
+              <Globe size={18} />
+            </a>
             <a href="#" className={`transition ${isLightTheme ? "text-slate-500 hover:text-slate-900" : "text-slate-400 hover:text-white"}`}>
               <Github size={18} />
             </a>

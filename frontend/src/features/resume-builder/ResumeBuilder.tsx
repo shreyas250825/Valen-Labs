@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, FileText, Save, Loader2 } from "lucide-react";
 import { API_BASE_URL } from "../../services/api";
+import { SITE_URL } from "../../utils/constants";
 import {
   fetchResumeBuilderDraftFromBackend,
   saveResumeBuilderDraftToBackend,
@@ -329,6 +330,7 @@ export default function ResumeBuilder() {
                       value={state.basics.portfolio}
                       onChange={(v) => setBasics({ portfolio: v })}
                       maxLength={Lb.portfolio}
+                      placeholder={SITE_URL}
                     />
                   </div>
                 </div>

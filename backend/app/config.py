@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./interview.db"
     
     # CORS
-    FRONTEND_URL: str = "http://localhost:3000"
+    FRONTEND_URL: str = "https://www.valen.live"
     
     # AI Models - Gemini
     GEMINI_API_KEY: Optional[str] = None

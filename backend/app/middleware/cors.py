@@ -26,10 +26,10 @@ def setup_cors(app):
         "https://valen-labs.onrender.com/",
 
         # Production frontend domains
-        "https://valenlabs.in",
-        "https://valenlabs.in/",
-        "https://www.valenlabs.in",
-        "https://www.valenlabs.in/",
+        "https://valen.live",
+        "https://valen.live/",
+        "https://www.valen.live",
+        "https://www.valen.live/",
 
         # Vercel frontend (main + previews)
         "https://valen-labs.vercel.app",

@@ -5,6 +5,7 @@ interface InputBoxProps {
   value: string;
   onChange: (v: string) => void;
   maxLength: number;
+  placeholder?: string;
   multiline?: boolean;
   rows?: number;
   id?: string;
@@ -20,6 +21,7 @@ export default function InputBox({
   value,
   onChange,
   maxLength,
+  placeholder,
   multiline,
   rows = 3,
   id,
@@ -64,6 +66,7 @@ export default function InputBox({
           value={value}
           maxLength={maxLength}
           rows={rows}
+          placeholder={placeholder}
           onChange={(e) => onChange(e.target.value.slice(0, maxLength))}
           className={common}
         />
@@ -73,6 +76,7 @@ export default function InputBox({
           type="text"
           value={value}
           maxLength={maxLength}
+          placeholder={placeholder}
           onChange={(e) => onChange(e.target.value.slice(0, maxLength))}
           className={common}
         />

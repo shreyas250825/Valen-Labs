@@ -18,6 +18,8 @@ import JobFitAnalysis from './components/jobfit/JobFitAnalysis';
 import { ResumeBuilder } from './features/resume-builder';
 import SignInPage from "./components/auth/SignInPage";
 import SignUpPage from "./components/auth/SignUpPage";
+import ArenaLandingPage from "./pages/arena/ArenaLandingPage";
+import ProblemSolvePage from "./pages/arena/ProblemSolvePage";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import { ThemeProvider } from "./context/ThemeContext";
 import { firebaseAuth } from "./lib/firebase";
@@ -76,6 +78,8 @@ function App() {
           <Route path="/signup" element={<Layout><SignUpPage /></Layout>} />
           <Route path="/ai-resume-builder" element={<Layout><ComingSoonResumePage /></Layout>} />
           <Route path="/coming-soon" element={<Navigate to="/ai-resume-builder" replace />} />
+          <Route path="/arena" element={<ArenaLandingPage />} />
+          <Route path="/arena/problems/:slug" element={<ProblemSolvePage />} />
 
           {/* Protected routes - require sign in */}
           <Route
